@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Isichei"
+    given-names: "Nnamdi"
+    orcid: "https://orcid.org/0009-0006-6037-2609"
+    affiliation: "Nasarawa State University, Keffi"
+title: "Machine Learning-Enhanced Portfolio Optimization for Emerging Markets"
+version: 1.0.0
+date-released: 2026-01-01
+url: "https://github.com/isichei-nnamdi/phd-research-portfolio-optimization"
+repository-code: "https://github.com/isichei-nnamdi/phd-research-portfolio-optimization"
+keywords:
+  - machine learning
+  - portfolio optimization
+  - emerging markets
+  - Nigerian stock exchange
+  - graph neural networks
+  - reinforcement learning
+license: MIT
