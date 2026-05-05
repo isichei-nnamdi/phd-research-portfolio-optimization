@@ -1,0 +1,165 @@
+\begin{thebibliography}{23}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Aawaar and Tewari(2023)]{aawaar2023african}
+Godfred Aawaar and Deo~Darko Tewari.
+\newblock Volatility persistence in {African} equity markets: {GARCH} evidence.
+\newblock \emph{African Finance Journal}, 25\penalty0 (1):\penalty0 45--63,
+  2023.
+
+\bibitem[Adams et~al.(2024)Adams, Asemota, and Ibrahim]{adams2024asymmetric}
+Samuel~Olorunfemi Adams, Omorogbe~Joseph Asemota, and Abdulsalam~Ahovi Ibrahim.
+\newblock Asymmetric {GARCH} type models and {LSTM} for volatility
+  characteristics analysis of {Nigeria} stock exchange returns.
+\newblock \emph{American Journal of Mathematics and Statistics}, 14\penalty0
+  (2):\penalty0 17--32, 2024.
+\newblock \doi{10.5923/j.ajms.20241402.01}.
+
+\bibitem[Adeabah et~al.(2023)Adeabah, Abakah, and Tiwari]{adeabah2023african}
+David Adeabah, Emmanuel Joel~Aikins Abakah, and Aviral~Kumar Tiwari.
+\newblock Machine learning in african financial markets: A systematic review.
+\newblock \emph{Journal of African Business}, 24\penalty0 (4):\penalty0
+  567--592, 2023.
+
+\bibitem[Adigwe et~al.(2015)Adigwe, Nwanna, and
+  Ananwude]{adigwe2015stockmarket}
+Patrick~K Adigwe, Ifeanyi~O Nwanna, and Amalachukwu Ananwude.
+\newblock Stock market and macroeconomic variables in {Nigeria}.
+\newblock \emph{Journal of Policy and Development Studies}, 9\penalty0
+  (2):\penalty0 167--182, 2015.
+
+\bibitem[Bekaert et~al.(2007)Bekaert, Harvey, and
+  Lundblad]{bekaert2007liquidity}
+Geert Bekaert, Campbell~R Harvey, and Christian Lundblad.
+\newblock Liquidity and expected returns: Lessons from emerging markets.
+\newblock \emph{Review of Financial Studies}, 20\penalty0 (6):\penalty0
+  1783--1831, 2007.
+\newblock \doi{10.1093/rfs/hhm030}.
+
+\bibitem[Bekaert et~al.(2023)Bekaert, Harvey, and
+  Lundblad]{bekaert2023globalized}
+Geert Bekaert, Campbell~R Harvey, and Christian~T Lundblad.
+\newblock Emerging equity markets in a globalizing world.
+\newblock \emph{Annual Review of Financial Economics}, 15:\penalty0 207--238,
+  2023.
+\newblock \doi{10.1146/annurev-financial-110921-110326}.
+
+\bibitem[Bollerslev(2001)]{bollerslev2023garch}
+Tim Bollerslev.
+\newblock {GARCH} 101: The use of {ARCH/GARCH} models in applied econometrics.
+\newblock \emph{Journal of Economic Perspectives}, 15\penalty0 (4):\penalty0
+  157--168, 2001.
+\newblock Reprinted reference; widely cited as foundational GARCH applied
+  reference.
+
+\bibitem[Emenike(2021)]{emenike2021westafrica}
+Kalu~O Emenike.
+\newblock Stock market integration in {West Africa}: Evidence from selected
+  markets.
+\newblock \emph{Journal of African Business}, 22\penalty0 (4):\penalty0
+  573--588, 2021.
+
+\bibitem[Engle and Kelly(2023)]{engle2023covol}
+Robert~F Engle and Bryan Kelly.
+\newblock Volatility, correlation and tails for systemic risk measurement.
+\newblock \emph{Journal of Financial Econometrics}, 21\penalty0 (2):\penalty0
+  389--425, 2023.
+
+\bibitem[Ferrouhi(2021)]{ferrouhi2021calendar}
+El~Mehdi Ferrouhi.
+\newblock Calendar effects and market efficiency in {African} stock exchanges.
+\newblock \emph{Asian Economic and Financial Review}, 11\penalty0 (4):\penalty0
+  290--305, 2021.
+
+\bibitem[Glosten et~al.(1993)Glosten, Jagannathan, and Runkle]{glosten1993gjr}
+Lawrence~R Glosten, Ravi Jagannathan, and David~E Runkle.
+\newblock On the relation between the expected value and the volatility of the
+  nominal excess return on stocks.
+\newblock \emph{The Journal of Finance}, 48\penalty0 (5):\penalty0 1779--1801,
+  1993.
+\newblock \doi{10.1111/j.1540-6261.1993.tb05128.x}.
+
+\bibitem[Huang et~al.(2024)Huang, Hong, and Song]{huang2024}
+Wenhao Huang, Yan Hong, and Yuanpeng Song.
+\newblock Enhancing portfolio optimization: A two-stage approach with deep
+  learning and portfolio optimization.
+\newblock \emph{Mathematics}, 12\penalty0 (21):\penalty0 3376, 2024.
+\newblock \doi{10.3390/math12213376}.
+
+\bibitem[Jiang and Liang(2024)]{jiang2024drl}
+Zhengyao Jiang and Junjie Liang.
+\newblock Deep reinforcement learning for financial trading: A survey.
+\newblock \emph{Expert Systems with Applications}, 238:\penalty0 121694, 2024.
+
+\bibitem[Kouladoum et~al.(2022)Kouladoum, Wirajing, and
+  Nchofoung]{kouladoum2022digital}
+Jean-Claude Kouladoum, Muhamadu Wirajing, and Tii Nchofoung.
+\newblock Digital infrastructure and economic growth in sub-{S}aharan {Africa}.
+\newblock \emph{Telecommunications Policy}, 46\penalty0 (6):\penalty0 102343,
+  2022.
+
+\bibitem[Kumeka et~al.(2022)Kumeka, Uzoma-Nwosu, and
+  David-Wayas]{kumeka2022stockafrica}
+Terver~T Kumeka, Damian~C Uzoma-Nwosu, and Madeleine~O David-Wayas.
+\newblock Exchange rates and stock prices in selected {West African} countries.
+\newblock \emph{International Journal of Finance and Economics}, 27\penalty0
+  (3):\penalty0 3241--3256, 2022.
+\newblock \doi{10.1002/ijfe.2314}.
+
+\bibitem[Liang et~al.(2024)Liang, Chen, Zhu, Jiang, and Li]{liang2024portfolio}
+Zihao Liang, Hao Chen, Jianjun Zhu, Kun Jiang, and Yanzhi Li.
+\newblock Deep reinforcement learning for portfolio management: A survey and
+  research agenda.
+\newblock \emph{Expert Systems with Applications}, 245:\penalty0 123124, 2024.
+\newblock \doi{10.1016/j.eswa.2024.123124}.
+
+\bibitem[Markowitz(1952)]{markowitz1952portfolio}
+Harry Markowitz.
+\newblock Portfolio selection.
+\newblock \emph{The Journal of Finance}, 7\penalty0 (1):\penalty0 77--91, 1952.
+
+\bibitem[Naeem et~al.(2024)Naeem, Farid, and Balli]{naeem2024ml}
+Muhammad~Abubakr Naeem, Saqib Farid, and Faruk Balli.
+\newblock Machine learning for portfolio management in emerging markets:
+  Opportunities and challenges.
+\newblock \emph{Emerging Markets Finance and Trade}, 60\penalty0 (1):\penalty0
+  1--18, 2024.
+
+\bibitem[Nelson(1991)]{nelson1991egarch}
+Daniel~B Nelson.
+\newblock Conditional heteroskedasticity in asset returns: A new approach.
+\newblock \emph{Econometrica}, 59\penalty0 (2):\penalty0 347--370, 1991.
+\newblock \doi{10.2307/2938260}.
+
+\bibitem[Ngene et~al.(2022)Ngene, Tah, and Darrat]{ngene2022volume}
+Geoffrey~M Ngene, Kenneth~A Tah, and Ali~F Darrat.
+\newblock Volume and volatility dynamics in frontier markets.
+\newblock \emph{Journal of Financial Research}, 45\penalty0 (2):\penalty0
+  367--392, 2022.
+
+\bibitem[Ngo et~al.(2023)Ngo, Nguyen, and Tran]{ngo2023frontier}
+Minh Ngo, Hieu Nguyen, and Binh Tran.
+\newblock Reinforcement learning for portfolio management in frontier and
+  emerging markets.
+\newblock \emph{Finance Research Letters}, 58:\penalty0 104462, 2023.
+
+\bibitem[Sun et~al.(2024)Sun, Chen, and Zhang]{sun2024graphsage}
+Liang Sun, Wei Chen, and Kai Zhang.
+\newblock Graph-based stock recommendation with attention mechanisms.
+\newblock \emph{IEEE Transactions on Knowledge and Data Engineering},
+  36\penalty0 (3):\penalty0 1123--1135, 2024.
+
+\bibitem[Wu et~al.(2021)Wu, Pan, Chen, Long, Zhang, and
+  Philip]{wu2021comprehensive}
+Zonghan Wu, Shirui Pan, Fengwen Chen, Guodong Long, Chengqi Zhang, and S~Yu
+  Philip.
+\newblock A comprehensive survey on graph neural networks.
+\newblock \emph{IEEE Transactions on Neural Networks and Learning Systems},
+  32\penalty0 (1):\penalty0 4--24, 2021.
+\newblock \doi{10.1109/TNNLS.2020.2978386}.
+
+\end{thebibliography}
