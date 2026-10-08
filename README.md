@@ -157,14 +157,15 @@ python scripts/run_market_analysis.py --output results/market_analysis/
 
 ### 3. Train GNN Model (RQ1)
 ```bash
-# Train Graph Attention Network for stock selection
-python scripts/train_gnn_model.py --config configs/gnn_config.yaml
+# Prepare point-in-time panels and run annual GAT evaluation (prototype)
+python scripts/prepare_model_data.py
+python scripts/train_gat_walkforward.py
 ```
 
 ### 4. Train RL Agent (RQ2)
 ```bash
-# Train PPO agent for portfolio optimization
-python scripts/train_rl_agent.py --config configs/rl_config.yaml --algorithm ppo
+# Run annual PPO, MVO, and equal-weight evaluation (prototype)
+python scripts/train_ppo_walkforward.py
 ```
 
 ### 5. Run Complete Backtesting

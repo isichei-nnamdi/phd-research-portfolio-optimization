@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --navy:       #0A1628;
+    --navy-card:  #111e35;
+    --navy-border:#1e3054;
+    --ngx:        #007B3E;
+    --ngx-light:  #009B4E;
+    --gold:       #C49A00;
+    --gold-light: #FFD700;
+  }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--navy); }
+  * { box-sizing: border-box; }
+  ::selection { background: #007B3E40; color: #fff; }
+}
+
+@layer components {
+  .card {
+    @apply bg-slate-card border border-slate-border rounded-2xl;
+  }
+  .card-glow {
+    @apply card transition-all duration-300;
+    box-shadow: 0 0 0 1px #1e3054;
+  }
+  .card-glow:hover {
+    box-shadow: 0 0 0 1px #007B3E60, 0 8px 32px #007B3E20;
+    border-color: #007B3E60;
+  }
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-ngx hover:bg-ngx-light
+           text-white font-semibold rounded-xl transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-ngx focus:ring-offset-2
+           focus:ring-offset-navy disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-6 py-3 border border-slate-border
+           hover:border-ngx text-white font-medium rounded-xl transition-all duration-200;
+  }
+  .metric-card {
+    @apply card p-5 flex flex-col gap-1;
+  }
+  .metric-value {
+    @apply text-3xl font-bold text-white;
+  }
+  .metric-label {
+    @apply text-sm text-slate-400;
+  }
+  .metric-badge {
+    @apply text-xs font-medium px-2 py-0.5 rounded-full;
+  }
+  .section-title {
+    @apply text-2xl md:text-3xl font-bold text-white;
+  }
+  .section-sub {
+    @apply text-slate-400 mt-2 max-w-2xl;
+  }
+  .badge-ngx  { @apply bg-ngx/20 text-ngx-light border border-ngx/30; }
+  .badge-gold { @apply bg-gold/20 text-gold border border-gold/30; }
+  .badge-blue { @apply bg-blue-500/20 text-blue-300 border border-blue-500/30; }
+  .tag {
+    @apply text-xs font-medium px-2.5 py-1 rounded-full border;
+  }
+  .gradient-text {
+    @apply bg-gradient-to-r from-ngx-light to-gold bg-clip-text text-transparent;
+  }
+  .divider { @apply border-t border-slate-border my-8; }
+}
+
+@layer utilities {
+  .bg-navy       { background: var(--navy); }
+  .bg-slate-card { background: var(--navy-card); }
+  .border-slate-border { border-color: var(--navy-border); }
+  .text-ngx-light { color: var(--ngx-light); }
+  .bg-ngx-light   { background: var(--ngx-light); }
+  .animate-in { animation: fadeIn 0.6s ease-out both; }
+  .glow-ngx { box-shadow: 0 0 40px #007B3E30; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--navy-card); }
+::-webkit-scrollbar-thumb { background: var(--navy-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ngx); }
+
+/* Recharts overrides */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical   line { stroke: #1e3054 !important; }
+.recharts-tooltip-wrapper { z-index: 50 !important; }

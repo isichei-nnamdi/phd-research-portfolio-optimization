@@ -1,0 +1,2 @@
+comment_count,video_count,channel_count,comment_start_utc,comment_end_utc,return_start,return_end,comments_on_return_dates,return_date_overlap_pct,mean_compound,median_compound,positive_count,neutral_count,negative_count,positive_pct,neutral_pct,negative_pct
+77,20,16,2026-09-22 08:38:37+00:00,2026-10-06 05:14:54+00:00,2012-01-02,2025-12-31,0,0.0,0.3713142857142857,0.3666,53,14,10,68.83116883116882,18.181818181818183,12.987012987012987
