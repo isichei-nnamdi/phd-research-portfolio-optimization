@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import random
+import json
 from pathlib import Path
 
 import gymnasium as gym
@@ -229,6 +230,24 @@ def run() -> tuple[pd.DataFrame, pd.DataFrame]:
         )
         model.learn(total_timesteps=PPO_TIMESTEPS_PER_FOLD, progress_bar=False)
         model.save(MODEL_DIR / f"ppo_{test_year}")
+        (MODEL_DIR / f"ppo_{test_year}.json").write_text(
+            json.dumps(
+                {
+                    "test_year": test_year,
+                    "tickers": tickers,
+                    "features": FEATURES,
+                    "feature_mean": mean.to_dict(),
+                    "feature_std": std.to_dict(),
+                    "max_weight": MAX_WEIGHT,
+                    "one_way_cost": ONE_WAY_COST,
+                    "training_timesteps": PPO_TIMESTEPS_PER_FOLD,
+                    "seed": SEED + test_year,
+                    "policy_network": {"pi": [32, 32], "vf": [32, 32]},
+                },
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
 
         previous = {"PPO": np.zeros(len(tickers)), "MVO": np.zeros(len(tickers)), "EqualWeight": np.zeros(len(tickers))}
         fold_rows = []

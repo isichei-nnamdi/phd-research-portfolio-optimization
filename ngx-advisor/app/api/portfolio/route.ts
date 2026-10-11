@@ -1,45 +1,53 @@
 import { NextResponse } from 'next/server';
-import { PORTFOLIO_PROFILES } from '@/lib/data';
+
+const INFERENCE_API_URL = process.env.INFERENCE_API_URL ?? 'http://127.0.0.1:8000';
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => ({}));
-  const { riskProfile = 'moderate', capital = 1000000 } = body;
-
-  const profile = PORTFOLIO_PROFILES[riskProfile as keyof typeof PORTFOLIO_PROFILES];
-  if (!profile) {
-    return NextResponse.json({ error: 'Invalid risk profile.' }, { status: 400 });
+  const capital = Number(body.capital ?? 1_000_000);
+  const modelYear = Number(body.modelYear ?? 2025);
+  if (!Number.isFinite(capital) || capital <= 0) {
+    return NextResponse.json({ error: 'capital must be a positive number.' }, { status: 400 });
+  }
+  if (!Number.isInteger(modelYear) || modelYear < 2019 || modelYear > 2025) {
+    return NextResponse.json({ error: 'modelYear must be an integer from 2019 through 2025.' }, { status: 400 });
   }
 
-  // Simulate brief processing time (mirrors prototype model call)
-  await new Promise(r => setTimeout(r, 120));
+  try {
+    const response = await fetch(
+      `${INFERENCE_API_URL}/v1/inference/latest?model_year=${modelYear}`,
+      { cache: 'no-store', signal: AbortSignal.timeout(120_000) },
+    );
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      return NextResponse.json(
+        { error: payload.detail ?? 'Inference service returned an error.' },
+        { status: response.status >= 500 ? 502 : response.status },
+      );
+    }
 
-  const amount = Number(capital);
-  const allocations = profile.allocations.map(a => ({
-    symbol:   a.symbol,
-    weight:   a.weight,
-    amount:   Math.round(amount * a.weight),
-    rationale: a.rationale,
-  }));
-
-  return NextResponse.json({
-    riskProfile,
-    capital:     amount,
-    allocations,
-    metrics: {
-      expectedReturn: profile.expectedReturn,
-      expectedVol:    profile.expectedVol,
-      sharpe:         profile.sharpe,
-      maxDrawdown:    profile.maxDD,
-    },
-    meta: {
-      model:    'GAT v1 + PPO prototype (7-fold walk-forward, 2019-2025)',
-      folds:    7,
-      months:   68,
-      disclaimer: 'Research prototype only. Not financial advice.',
-    },
-  });
+    const allocations = (payload.ppo_allocations ?? []).map((allocation: { ticker: string; weight: number }) => ({
+      symbol: allocation.ticker,
+      weight: allocation.weight,
+      amount: Math.round(capital * allocation.weight),
+      rationale: 'PPO model weight from the selected saved walk-forward fold.',
+    }));
+    return NextResponse.json({ ...payload, capital, allocations });
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : 'Unknown inference service error.';
+    return NextResponse.json(
+      { error: `Cannot reach FastAPI inference service at ${INFERENCE_API_URL}: ${detail}` },
+      { status: 502 },
+    );
+  }
 }
 
 export async function GET() {
-  return NextResponse.json({ status: 'NGX Advisor API v1.0', profiles: Object.keys(PORTFOLIO_PROFILES) });
+  try {
+    const response = await fetch(`${INFERENCE_API_URL}/health`, { cache: 'no-store' });
+    const health = await response.json();
+    return NextResponse.json({ status: response.ok ? 'ok' : 'unavailable', inference: health }, { status: response.ok ? 200 : 502 });
+  } catch {
+    return NextResponse.json({ status: 'unavailable', inference: INFERENCE_API_URL }, { status: 502 });
+  }
 }

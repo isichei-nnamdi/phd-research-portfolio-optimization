@@ -1,0 +1,82 @@
+{
+  "test_year": 2024,
+  "tickers": [
+    "ZENITHBANK",
+    "GTCO",
+    "ACCESSCORP",
+    "FBNH",
+    "UBA",
+    "STANBIC",
+    "FIDELITYBK",
+    "FCMB",
+    "ETI",
+    "WEMABANK",
+    "NESTLE",
+    "DANGSUGAR",
+    "NB",
+    "INTBREW",
+    "BUAFOODS",
+    "SEPLAT",
+    "OANDO",
+    "TOTAL",
+    "ARADEL",
+    "DANGCEM",
+    "BUACEMENT",
+    "WAPCO",
+    "GEREGU",
+    "PRESCO",
+    "MTNN",
+    "AIRTELAFRI",
+    "TRANSCORP",
+    "NASCON",
+    "OKOMUOIL",
+    "LIVESTOCK",
+    "CONOIL",
+    "JBERGER",
+    "FLOURMILLS",
+    "STERLINGNG",
+    "UNILEVE",
+    "PZ",
+    "CADBURY",
+    "GSK",
+    "HONYFLOUR"
+  ],
+  "features": [
+    "ret_1d",
+    "mom_20d",
+    "mom_60d",
+    "vol_20d",
+    "vol_60d",
+    "volume_z_20d"
+  ],
+  "feature_mean": {
+    "ret_1d": 0.0010388862099030708,
+    "mom_20d": 0.006311252906072245,
+    "mom_60d": 0.032742842994270965,
+    "vol_20d": 0.024626330699668485,
+    "vol_60d": 0.02612895003333961,
+    "volume_z_20d": 0.01506906545541962
+  },
+  "feature_std": {
+    "ret_1d": 0.02804462298287496,
+    "mom_20d": 0.13810001794424778,
+    "mom_60d": 0.2552595605369305,
+    "vol_20d": 0.018060123798749037,
+    "vol_60d": 0.014488396430996968,
+    "volume_z_20d": 1.0339850063462328
+  },
+  "max_weight": 0.2,
+  "one_way_cost": 0.001,
+  "training_timesteps": 2048,
+  "seed": 2066,
+  "policy_network": {
+    "pi": [
+      32,
+      32
+    ],
+    "vf": [
+      32,
+      32
+    ]
+  }
+}

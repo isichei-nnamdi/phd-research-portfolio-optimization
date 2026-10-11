@@ -219,7 +219,31 @@ def run() -> tuple[pd.DataFrame, pd.DataFrame]:
         for model_name, rows in fold_predictions.items():
             metrics_out.append({**metric_row(test_year, model_name, rows), "validation_year": validation_year, "selected_epoch": best_epoch if model_name == "GAT" else np.nan})
             predictions_out.extend(rows)
-        torch.save(model.state_dict(), OUT_DIR / f"gat_{test_year}.pt")
+        torch.save(
+            {
+                "state_dict": model.state_dict(),
+                "test_year": test_year,
+                "tickers": tickers,
+                "features": FEATURES,
+                "feature_mean": mu.to_dict(),
+                "feature_std": sigma.to_dict(),
+                "graph": {
+                    "lookback_sessions": 60,
+                    "minimum_pairwise_observations": 30,
+                    "absolute_correlation_threshold": 0.30,
+                    "maximum_neighbors": 5,
+                    "self_loops": True,
+                },
+                "architecture": {
+                    "input_dim": len(FEATURES),
+                    "hidden_dim": 16,
+                    "heads_first_layer": 2,
+                    "dropout": 0.15,
+                },
+                "selected_epoch": best_epoch,
+            },
+            OUT_DIR / f"gat_{test_year}.pt",
+        )
         print(f"{test_year}: train labels through {test_year - 2}, validation {validation_year}, test {test_year}, GAT epoch {best_epoch}")
 
     predictions = pd.DataFrame(predictions_out)

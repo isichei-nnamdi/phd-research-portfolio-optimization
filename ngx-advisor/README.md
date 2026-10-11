@@ -23,24 +23,25 @@ Published in **Proceedings of Machine Learning Research, Vol. 319** (IndabaX Nig
 
 ---
 
-## Deploy to Vercel (zero-config)
+## Local model-backed development
 
-### Option A — Vercel CLI (fastest)
+The Next.js advisor calls the FastAPI service through the server-side `/api/portfolio` route. Run both processes from the repository root/app directory:
 
 ```bash
-# From inside the ngx-advisor/ folder:
-npx vercel --prod
+# Terminal 1, repository root, project Python environment:
+..\.venv\Scripts\python.exe -m uvicorn api.main:app --host 127.0.0.1 --port 8000
+
+# Terminal 2, ngx-advisor/ directory:
+npm run dev
 ```
 
-Vercel auto-detects Next.js. No further configuration needed.
+The Next app defaults to `http://127.0.0.1:8000`. Override it in `ngx-advisor/.env.local` using `INFERENCE_API_URL` if the API runs elsewhere. The API must have access to the trained checkpoints and `data/processed/model_inputs`.
 
-### Option B — GitHub + Vercel Dashboard
+## Deployment
 
-1. Push the `ngx-advisor/` folder to your GitHub repo.
-2. Go to [vercel.com/new](https://vercel.com/new).
-3. Import the repository.
-4. Set **Root Directory** to `ngx-advisor` if the folder is inside a larger repo.
-5. Click **Deploy**. Done.
+This is a split deployment. Build and host the API using `api/Dockerfile`, including the model checkpoints and prepared model-input snapshot in the image. Deploy the Next.js app separately (for example, on Vercel) and set `INFERENCE_API_URL` to the API's reachable HTTPS endpoint. Do not use `localhost` for a remotely deployed frontend. Keep the API private or protect it with authentication, TLS, and rate limits before public exposure.
+
+The repository snapshot currently ends on 2025-11-28. The inference response includes `signal_date` and `stale_days`; this is a historical research demo, not live market data or financial advice.
 
 ---
 
@@ -57,7 +58,7 @@ npm run dev
 
 ## Tech Stack
 
-- **Next.js 14** (App Router, TypeScript)
+- **Next.js 16** (App Router, TypeScript)
 - **Tailwind CSS** (custom NGX theme: `#007B3E` green + `#C49A00` gold)
 - **Recharts** (all data visualisations)
 - **Lucide React** (icons)
@@ -66,12 +67,12 @@ npm run dev
 
 ## Research Data
 
-All data in `lib/data.ts` are actual empirical results from the dissertation:
+Research charts and stock descriptions in `lib/data.ts` are static reference content. Advisor allocations are fetched from the FastAPI inference service and are not read from those static profiles:
 
 - `RESEARCH_METRICS` — prototype PPO/MVO/EW pooled statistics
 - `WALK_FORWARD_ANNUAL` — year-by-year performance across 7 annual folds
 - `COST_SENSITIVITY` — Sharpe ratio at 5/10/25/50 bps one-way cost
-- `PORTFOLIO_PROFILES` — GAT+PPO allocation profiles for 3 risk levels
+- `/api/portfolio` — server-side proxy to the GAT + PPO inference API
 - `NGX_STOCKS` — 15 representative NGX-30 stocks with return/risk statistics
 
 ---
