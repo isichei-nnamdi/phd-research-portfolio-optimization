@@ -30,6 +30,30 @@ function SectionHeader({ id, label, badge, badgeColor }: {
   );
 }
 
+function ResearchFig({ src, caption }: { src: string; caption: string }) {
+  return (
+    <div className="card overflow-hidden mb-5">
+      <div className="relative w-full" style={{ minHeight: 220 }}>
+        <Image src={src} alt={caption} fill className="object-contain p-2" unoptimized />
+      </div>
+      <p className="px-4 pb-3 text-xs leading-relaxed" style={{ color: 'var(--t2)' }}>
+        {caption}
+      </p>
+    </div>
+  );
+}
+
+function RF({ src, cap }: { src: string; cap: string }) {
+  return (
+    <div className="card overflow-hidden mb-5 mt-4">
+      <div style={{ position:'relative', width:'100%', paddingBottom:'45%' }}>
+        <Image src={src} alt={cap} fill style={{ objectFit:'contain', padding:8 }} unoptimized />
+      </div>
+      <p className="px-4 pb-3 text-xs leading-relaxed" style={{ color:'var(--t2)' }}>{cap}</p>
+    </div>
+  );
+}
+
 export default function ResearchPage() {
   const m = RESEARCH_METRICS;
 
@@ -87,6 +111,26 @@ export default function ResearchPage() {
             These findings motivate every architecture decision in the two-stage framework.
           </p>
         </div>
+      
+      <RF src="/research/fig4_1_return_distributions.png"
+        cap="Figure 4.1: Return distribution analysis - All 39 NGX equities reject normality; fat-tailed empirical density vs normal fit. Panel (c): NGX Sharpe vs S&P 500 and MSCI EM." />
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:16 }}>
+        <RF src="/research/fig4_2_correlation_heatmap.png" cap="Figure 4.2: Pearson correlation matrix with sector blocks. Intra-sector 0.39 vs cross-sector 0.16." />
+        <RF src="/research/fig4_4_liquidity.png"            cap="Figure 4.4: Liquidity profile. 27% of equities exceed 75th pctl illiquidity threshold." />
+      </div>
+      <RF src="/research/fig4_3_macro_regimes.png"
+        cap="Figure 4.3: Rolling volatility and macroeconomic regimes (2012 to 2025). Three volatility spikes: oil crash (2015 to 2016), COVID (2020), Naira crisis (2022 to 2024)." />
+
+      </div>
+
+      
+      <RF src="/research/fig4_5_gat_baselines.png"
+        cap="Figure 4.5: GAT pre-selection vs baselines across seven walk-forward folds (2019 to 2025). GAT quintile spread 2.22%/month exceeds both baselines." />
+
+      
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:16, marginTop:16 }}>
+        <RF src="/research/fig4_6_ppo_performance.png" cap="Figure 4.6: PPO cumulative wealth and annual Sharpe (2019 to 2025, 68 months)." />
+        <RF src="/research/fig4_7_cost_sensitivity.png" cap="Figure 4.7: Cost sensitivity - PPO degrades slower than MVO as transaction costs rise." />
       </div>
 
       <div className="divider" />

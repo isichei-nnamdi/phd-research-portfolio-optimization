@@ -3,156 +3,97 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Theme tokens ──────────────────────────────────────────────── */
 @layer base {
   :root {
-    --bg-base:     #0A1628;
-    --bg-card:     #111e35;
-    --bg-hover:    #172240;
-    --border:      #1e3054;
-    --text-1:      #ffffff;
-    --text-2:      #94a3b8;
-    --text-3:      #64748b;
-    --ngx:         #007B3E;
-    --ngx-light:   #009B4E;
-    --gold:        #C49A00;
-    --gold-light:  #FFD700;
-    --navy:        #0A1628;
-    --navy-card:   #111e35;
-    --navy-border: #1e3054;
+    --bg:      #0A1628;
+    --card:    #111e35;
+    --hover:   #172240;
+    --border:  #1e3054;
+    --t1:      #ffffff;
+    --t2:      #94a3b8;
+    --t3:      #64748b;
+    --ngx:     #007B3E;
+    --ngxl:    #009B4E;
+    --gold:    #C49A00;
+    --goldl:   #FFD700;
   }
-
-  /* Light mode: applied when html has class="light" */
   html.light {
-    --bg-base:     #f4f6fa;
-    --bg-card:     #ffffff;
-    --bg-hover:    #e8edf5;
-    --border:      #d1dae8;
-    --text-1:      #0A1628;
-    --text-2:      #475569;
-    --text-3:      #94a3b8;
-    --navy:        #f4f6fa;
-    --navy-card:   #ffffff;
-    --navy-border: #d1dae8;
+    --bg:      #f4f6fa;
+    --card:    #ffffff;
+    --hover:   #e8edf5;
+    --border:  #d1dae8;
+    --t1:      #0A1628;
+    --t2:      #475569;
+    --t3:      #94a3b8;
   }
-
   body {
     font-family: 'Inter', system-ui, sans-serif;
-    background: var(--bg-base);
-    color: var(--text-1);
-    transition: background 0.25s, color 0.25s;
+    background: var(--bg);
+    color: var(--t1);
+    transition: background .25s, color .25s;
   }
-
   * { box-sizing: border-box; }
-  ::selection { background: #007B3E40; color: #fff; }
+  ::selection { background: #007B3E40; }
 }
 
-/* ── Light mode overrides for existing Tailwind classes ─────────── */
-html.light .bg-navy   { background: var(--bg-base)  !important; }
-html.light body       { background: var(--bg-base)  !important; }
-
-/* Card/container colors */
-html.light [class*="bg-slate-card"],
-html.light .card              { background: var(--bg-card) !important; }
-html.light [class*="border-slate-border"],
-html.light .border-slate-border { border-color: var(--border) !important; }
-
-/* Text color overrides */
-html.light .text-white        { color: var(--text-1) !important; }
-html.light .text-slate-400    { color: var(--text-2) !important; }
-html.light .text-slate-500    { color: var(--text-3) !important; }
-
-/* Tooltip and inline backgrounds */
-html.light .recharts-tooltip-content { background: #fff !important; border-color: #d1dae8 !important; }
-html.light [style*="background: '#111e35'"] { background: #fff !important; }
-
-/* Header/footer backgrounds */
-html.light header, html.light footer {
-  background: var(--bg-card) !important;
-  border-color: var(--border) !important;
-}
-
-/* Button states */
-html.light .btn-secondary {
-  border-color: var(--border) !important;
-  color: var(--text-1) !important;
-}
-html.light .btn-secondary:hover { border-color: var(--ngx) !important; }
-
-/* ── Existing component classes ─────────────────────────────────── */
 @layer components {
   .card {
-    @apply bg-slate-card border border-slate-border rounded-2xl;
-    transition: background 0.25s, border-color 0.2s;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 1rem;
+    transition: background .25s, border-color .2s;
   }
-  .card-glow {
-    @apply card;
-    transition: all 0.25s;
-  }
+  .card-glow { @apply card transition-all duration-200; }
   .card-glow:hover {
-    box-shadow: 0 0 0 1px #007B3E60, 0 8px 32px #007B3E18;
-    border-color: #007B3E60;
+    box-shadow: 0 0 0 1px #007B3E50, 0 8px 24px #007B3E15;
+    border-color: #007B3E50;
   }
   .btn-primary {
-    @apply inline-flex items-center gap-2 px-6 py-3 bg-ngx hover:bg-ngx-light
-           text-white font-semibold rounded-xl transition-all duration-200
-           focus:outline-none focus:ring-2 focus:ring-ngx focus:ring-offset-2
-           focus:ring-offset-navy disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold
+           text-white transition-all duration-150 focus:outline-none
+           focus:ring-2 focus:ring-offset-2 disabled:opacity-50;
+    background: var(--ngx);
+    --tw-ring-color: var(--ngxl);
+    --tw-ring-offset-color: var(--bg);
   }
-  .btn-secondary {
-    @apply inline-flex items-center gap-2 px-6 py-3 border border-slate-border
-           hover:border-ngx text-white font-medium rounded-xl transition-all duration-200;
+  .btn-primary:hover { background: var(--ngxl); }
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-medium
+           transition-all duration-150;
+    border: 1px solid var(--border);
+    color: var(--t1);
   }
-  .metric-card   { @apply card p-5 flex flex-col gap-1; }
-  .metric-value  { @apply text-3xl font-bold text-white; }
-  .metric-label  { @apply text-sm text-slate-400; }
-  .metric-badge  { @apply text-xs font-medium px-2 py-0.5 rounded-full; }
-  .section-title { @apply text-2xl md:text-3xl font-bold text-white; }
-  .section-sub   { @apply text-slate-400 mt-2 max-w-2xl; }
-
-  .badge-ngx  { @apply bg-ngx/20 text-ngx-light border border-ngx/30; }
-  .badge-gold { @apply bg-gold/20 text-gold border border-gold/30; }
-  .badge-blue { @apply bg-blue-500/20 text-blue-300 border border-blue-500/30; }
-  .tag        { @apply text-xs font-medium px-2.5 py-1 rounded-full border; }
-
+  .btn-ghost:hover { border-color: var(--ngxl); }
+  .metric-card { @apply card p-4 flex flex-col gap-0.5; }
+  .tag { @apply text-xs font-medium px-2.5 py-1 rounded-full border; }
+  .badge-ngx  { background:#007B3E20; color:var(--ngxl); border-color:#007B3E40; }
+  .badge-gold { background:#C49A0020; color:var(--goldl); border-color:#C49A0040; }
+  .badge-blue { background:#3b82f620; color:#93c5fd;      border-color:#3b82f640; }
+  .divider    { border-top: 1px solid var(--border); @apply my-8; }
   .gradient-text {
-    @apply bg-gradient-to-r from-ngx-light to-gold bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-ngx-light to-gold-light bg-clip-text text-transparent;
   }
-  .divider { @apply border-t border-slate-border my-8; }
-
-  /* Nav state classes */
-  .nav-active {
-    background: #007B3E20;
-    color: var(--ngx-light);
-    border: 1px solid #007B3E40;
-    border-radius: 0.5rem;
-  }
-  .nav-inactive { color: var(--text-2); }
-  .nav-inactive:hover { color: var(--text-1); background: var(--bg-hover); border-radius: 0.5rem; }
 }
 
 @layer utilities {
-  .bg-navy        { background: var(--bg-base); }
-  .bg-slate-card  { background: var(--bg-card); }
-  .border-slate-border { border-color: var(--border); }
-  .text-ngx-light { color: var(--ngx-light); }
-  .bg-ngx-light   { background: var(--ngx-light); }
-  .animate-in     { animation: fadeIn 0.6s ease-out both; }
-  .glow-ngx       { box-shadow: 0 0 40px #007B3E30; }
+  .text-t1 { color: var(--t1); }
+  .text-t2 { color: var(--t2); }
+  .text-t3 { color: var(--t3); }
+  .bg-card  { background: var(--card); }
+  .bg-site  { background: var(--bg); }
+  .border-theme { border-color: var(--border); }
+  .animate-in { animation: fadeIn .5s ease-out both; }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(12px); }
+  from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-card); }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--card); }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--ngx); }
 
-/* Recharts */
 .recharts-cartesian-grid-horizontal line,
 .recharts-cartesian-grid-vertical   line { stroke: var(--border) !important; }
-.recharts-tooltip-wrapper { z-index: 50 !important; }
