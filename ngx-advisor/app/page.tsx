@@ -86,7 +86,7 @@ export default function HomePage() {
             <span className="text-white font-medium">Graph Attention Network</span> and{' '}
             <span className="text-white font-medium">Proximal Policy Optimisation</span> framework
             validated on {m.panel.stocks}&nbsp;NGX equities across {m.panel.years}&nbsp;years
-            ({m.panel.startYear}–{m.panel.endYear}).
+            ({m.panel.startYear} to {m.panel.endYear}).
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center animate-in"

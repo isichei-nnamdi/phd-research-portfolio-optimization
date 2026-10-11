@@ -1,4 +1,5 @@
 'use client';
+import Image from 'next/image';
 import { RESEARCH_METRICS, WALK_FORWARD_ANNUAL, COST_SENSITIVITY,
          generateWealthPath, MONTH_LABELS } from '@/lib/data';
 import {
@@ -41,10 +42,10 @@ export default function ResearchPage() {
           <Award className="w-3.5 h-3.5" /> Research Results
         </div>
         <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-3">
-          Empirical Findings — Progress Report
+          Empirical Findings - Progress Report
         </h1>
         <p className="text-slate-400 max-w-2xl mx-auto">
-          {m.panel.stocks} NGX equities · {m.panel.years} years ({m.panel.startYear}–{m.panel.endYear}) ·
+          {m.panel.stocks} NGX equities · {m.panel.years} years ({m.panel.startYear} to {m.panel.endYear}) ·
           {' '}{m.panel.tradingDays.toLocaleString()} trading days · Seven-fold walk-forward validation
         </p>
         <div className="mt-4 flex justify-center">
@@ -56,7 +57,7 @@ export default function ResearchPage() {
       </div>
 
       {/* ── RQ4 ──────────────────────────────────────────────────────────── */}
-      <SectionHeader id="rq4" label="RQ4 — NGX Market Characterisation"
+      <SectionHeader id="rq4" label="RQ4 - NGX Market Characterisation"
         badge="RQ4 · Complete · Published" badgeColor="badge-ngx" />
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
@@ -78,7 +79,7 @@ export default function ResearchPage() {
         <BookOpen className="w-5 h-5 text-ngx-light mt-0.5 flex-shrink-0" />
         <div>
           <div className="text-white font-semibold text-sm mb-1">
-            Published — PMLR Vol. 319 · IndabaX Nigeria 2026
+            Published - PMLR Vol. 319 · IndabaX Nigeria 2026
           </div>
           <p className="text-slate-400 text-xs leading-relaxed">
             All five structural NGX properties (non-normality, ARCH clustering, concentrated illiquidity,
@@ -91,7 +92,7 @@ export default function ResearchPage() {
       <div className="divider" />
 
       {/* ── RQ1 ──────────────────────────────────────────────────────────── */}
-      <SectionHeader id="rq1" label="RQ1 — GAT Pre-Selection Performance"
+      <SectionHeader id="rq1" label="RQ1 - GAT Pre-Selection Performance"
         badge="RQ1 · Prototype · 7 Folds" badgeColor="badge-gold" />
 
       <div className="grid sm:grid-cols-3 gap-3 mb-6">
@@ -137,7 +138,7 @@ export default function ResearchPage() {
       <div className="divider" />
 
       {/* ── RQ2 ──────────────────────────────────────────────────────────── */}
-      <SectionHeader id="rq2" label="RQ2 — PPO Portfolio Allocation"
+      <SectionHeader id="rq2" label="RQ2 - PPO Portfolio Allocation"
         badge="RQ2 · Prototype · 68 Months" badgeColor="badge-gold" />
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
@@ -159,7 +160,7 @@ export default function ResearchPage() {
       {/* Wealth chart */}
       <div className="card p-5 mb-4">
         <div className="text-sm font-medium text-white mb-4">
-          Growth of ₦1 — Pooled 68 Months (10 bps cost)
+          Growth of ₦1 - Pooled 68 Months (10 bps cost)
         </div>
         <ResponsiveContainer width="100%" height={260}>
           <LineChart data={wealthPPO}>
@@ -201,7 +202,7 @@ export default function ResearchPage() {
       <div className="card p-5 mb-4">
         <div className="text-sm font-medium text-white mb-1">Transaction Cost Sensitivity</div>
         <p className="text-slate-400 text-xs mb-4">
-          PPO Sharpe degrades 2.9 bps per 10-bps cost increment vs MVO at 7.8 bps — reflecting lower turnover.
+          PPO Sharpe degrades 2.9 bps per 10-bps cost increment vs MVO at 7.8 bps - reflecting lower turnover.
         </p>
         <ResponsiveContainer width="100%" height={220}>
           <LineChart data={COST_SENSITIVITY}>
@@ -223,7 +224,7 @@ export default function ResearchPage() {
       <div className="divider" />
 
       {/* ── RQ3 ──────────────────────────────────────────────────────────── */}
-      <SectionHeader id="rq3" label="RQ3 — Sentiment Analysis (Complete)"
+      <SectionHeader id="rq3" label="RQ3 - Sentiment Analysis (Complete)"
         badge="RQ3 · Complete · Final Finding" badgeColor="badge-blue" />
 
       <div className="grid sm:grid-cols-3 gap-3 mb-6">
@@ -241,7 +242,7 @@ export default function ResearchPage() {
       </div>
 
       <div className="card p-5 mb-4">
-        <div className="text-sm font-medium text-white mb-2">Sentiment Ablation — 2021 to 2025</div>
+        <div className="text-sm font-medium text-white mb-2">Sentiment Ablation - 2021 to 2025</div>
         <div className="grid sm:grid-cols-3 gap-4">
           {[
             { label: 'Equal Weight',          cagr: 37.22, sharpe: 1.639, color: '#3b82f6' },
@@ -272,6 +273,30 @@ export default function ResearchPage() {
           of news sentiment predictability for an African frontier equity market.
         </p>
       </div>
+      {/* Sentiment figures from progress report */}
+      <div className="grid md:grid-cols-2 gap-4 mt-6">
+        <div className="card overflow-hidden">
+          <div className="relative w-full" style={{ aspectRatio: '4/3' }}>
+            <Image src="/research/fig4_8_sentiment_analysis.png" alt="Sentiment analysis"
+                   fill className="object-contain p-2" unoptimized />
+          </div>
+          <p className="px-4 pb-3 text-xs text-slate-400">
+            <span className="text-white font-semibold">Figure 4.8 - </span>
+            Sentiment coverage by year (left) and ablation CAGR comparison (right). Coverage rises from under 3% in 2012 to 85% by 2025.
+          </p>
+        </div>
+        <div className="card overflow-hidden">
+          <div className="relative w-full" style={{ aspectRatio: '4/3' }}>
+            <Image src="/research/fig4_9_sentiment_wealth.png" alt="Sentiment wealth chart"
+                   fill className="object-contain p-2" unoptimized />
+          </div>
+          <p className="px-4 pb-3 text-xs text-slate-400">
+            <span className="text-white font-semibold">Figure 4.9 - </span>
+            Growth of N1 NGN. Price-only momentum (green) consistently outperforms momentum plus sentiment (orange). HAC t = -0.820, p approx 0.41.
+          </p>
+        </div>
+      </div>
+
     </div>
   );
 }

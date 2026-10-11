@@ -4,10 +4,11 @@ import { usePathname } from 'next/navigation';
 import { BarChart2, Brain, TrendingUp, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import clsx from 'clsx';
+import { ThemeToggle } from './ThemeToggle';
 
 const links = [
   { href: '/',          label: 'Overview'   },
-  { href: '/advisor',   label: 'Robo-Advisor' },
+  { href: '/advisor',   label: 'Advisor' },
   { href: '/research',  label: 'Research'   },
 ];
 
@@ -26,6 +27,7 @@ export function Nav() {
                             group-hover:bg-ngx-light transition-colors">
               <TrendingUp className="w-4 h-4 text-white" />
             </div>
+            <img src="/favicon.svg" alt="NGX Advisor" className="w-8 h-8 rounded-lg" />
             <div className="leading-tight">
               <div className="text-sm font-bold text-white tracking-tight">NGX Robo-Advisor</div>
               <div className="text-[10px] text-slate-400 hidden sm:block">PhD Research Demo · NSUK</div>
@@ -48,7 +50,8 @@ export function Nav() {
           </nav>
 
           {/* CTA + mobile toggle */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
             <Link href="/advisor"
               className="hidden sm:inline-flex btn-primary text-sm py-2 px-4">
               <Brain className="w-4 h-4" />

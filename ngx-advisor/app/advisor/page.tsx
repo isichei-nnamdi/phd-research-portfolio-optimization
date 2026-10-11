@@ -134,7 +134,7 @@ export default function AdvisorPage() {
         <AlertCircle className="w-4 h-4 text-gold mt-0.5 flex-shrink-0" />
         <p className="text-xs text-slate-400 leading-relaxed">
           <span className="text-gold font-medium">Research prototype.</span>{' '}
-          Recommendations are generated from prototype walk-forward results (2019–2025).
+          Recommendations are generated from prototype walk-forward results (2019 to 2025).
           This tool is for academic demonstration only and does not constitute financial advice.
         </p>
       </div>
@@ -168,7 +168,7 @@ export default function AdvisorPage() {
             className="text-sm text-slate-400 hover:text-white mb-6 flex items-center gap-1.5 transition-colors">
             ← Back to model fold
           </button>
-          <h2 className="text-lg font-semibold text-white mb-5">Step 2 — Investment Details</h2>
+          <h2 className="text-lg font-semibold text-white mb-5">Step 2 - Investment Details</h2>
           <div className="grid sm:grid-cols-2 gap-6 mb-8">
             {/* Capital */}
             <div className="card p-5">
