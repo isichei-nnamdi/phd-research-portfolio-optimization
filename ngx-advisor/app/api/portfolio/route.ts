@@ -1,72 +1,67 @@
 import { NextResponse } from 'next/server';
+import { ADVISOR } from '@/lib/advisorData';
+import {
+  AMOUNT_MAX, AMOUNT_MIN, HORIZON_MAX_MONTHS, HORIZON_MIN_MONTHS, SECTORS,
+  type Recommendation, type RecommendationResponse, type Sector,
+} from '@/lib/advisor';
 
-const INFERENCE_API_URL = process.env.INFERENCE_API_URL;
+// Hugging Face Spaces can take a while to wake from sleep.
+export const maxDuration = 60;
 
-const PROTOTYPE: Record<number, { ticker: string; weight: number }[]> = {
-  2019: [{ticker:'ZENITHBANK',weight:.25},{ticker:'DANGCEM',weight:.20},{ticker:'MTNN',weight:.20},{ticker:'NESTLE',weight:.18},{ticker:'STANBIC',weight:.17}],
-  2020: [{ticker:'ZENITHBANK',weight:.22},{ticker:'DANGCEM',weight:.22},{ticker:'GTCO',weight:.18},{ticker:'NESTLE',weight:.20},{ticker:'UBA',weight:.18}],
-  2021: [{ticker:'SEPLAT',weight:.22},{ticker:'ZENITHBANK',weight:.20},{ticker:'DANGCEM',weight:.18},{ticker:'MTNN',weight:.22},{ticker:'ACCESSCORP',weight:.18}],
-  2022: [{ticker:'SEPLAT',weight:.25},{ticker:'ZENITHBANK',weight:.20},{ticker:'MTNN',weight:.20},{ticker:'DANGCEM',weight:.18},{ticker:'GTCO',weight:.17}],
-  2023: [{ticker:'SEPLAT',weight:.25},{ticker:'TRANSCORP',weight:.20},{ticker:'ACCESSCORP',weight:.20},{ticker:'ZENITHBANK',weight:.20},{ticker:'MTNN',weight:.15}],
-  2024: [{ticker:'SEPLAT',weight:.25},{ticker:'TRANSCORP',weight:.20},{ticker:'ZENITHBANK',weight:.20},{ticker:'ACCESSCORP',weight:.18},{ticker:'MTNN',weight:.17}],
-  2025: [{ticker:'SEPLAT',weight:.25},{ticker:'ZENITHBANK',weight:.20},{ticker:'MTNN',weight:.20},{ticker:'ACCESSCORP',weight:.18},{ticker:'DANGCEM',weight:.17}],
-};
-const NAMES: Record<string,string> = {
-  ZENITHBANK:'Zenith Bank Plc',GTCO:'Guaranty Trust Holding',DANGCEM:'Dangote Cement Plc',
-  MTNN:'MTN Nigeria Communications',SEPLAT:'Seplat Energy Plc',ACCESSCORP:'Access Holdings Plc',
-  UBA:'United Bank for Africa',NESTLE:'Nestle Nigeria Plc',STANBIC:'Stanbic IBTC Holdings',
-  TRANSCORP:'Transnational Corporation',
-};
+const INFERENCE_API_URL = process.env.INFERENCE_API_URL?.replace(/\/$/, '');
+// Bearer token for a private Hugging Face Space or a token-protected API (server-side only).
+const INFERENCE_API_TOKEN = process.env.INFERENCE_API_TOKEN;
+
+function snapshot(sector: Sector, notice: string): RecommendationResponse {
+  return { ...(ADVISOR.snapshot[sector] as Recommendation), source: 'snapshot', notice };
+}
 
 export async function POST(req: Request) {
-  const body      = await req.json().catch(() => ({}));
-  const capital   = Number(body.capital   ?? 1_000_000);
-  const modelYear = Number(body.modelYear ?? 2025);
-  if (!Number.isFinite(capital) || capital <= 0)
-    return NextResponse.json({ error: 'capital must be a positive number.' }, { status: 400 });
-  if (!Number.isInteger(modelYear) || modelYear < 2019 || modelYear > 2025)
-    return NextResponse.json({ error: 'modelYear must be between 2019 and 2025.' }, { status: 400 });
+  const body = await req.json().catch(() => ({}));
+  const amount = Number(body.amount);
+  const horizonMonths = Number(body.horizonMonths);
+  const sector = body.sector as Sector;
 
-  if (INFERENCE_API_URL) {
-    try {
-      const res = await fetch(`${INFERENCE_API_URL}/v1/inference/latest?model_year=${modelYear}`,
-        { cache: 'no-store', signal: AbortSignal.timeout(120_000) });
-      const payload = await res.json().catch(() => ({}));
-      if (res.ok) {
-        const allocations = (payload.ppo_allocations ?? []).map(
-          (a: { ticker: string; weight: number }) => ({
-            symbol: a.ticker, name: NAMES[a.ticker] ?? a.ticker,
-            weight: a.weight, amount: Math.round(capital * a.weight),
-            rationale: 'PPO model weight from saved walk-forward fold.',
-          }));
-        return NextResponse.json({ ...payload, capital, allocations, source: 'live' });
-      }
-    } catch { /* fall through */ }
+  if (!Number.isFinite(amount) || amount < AMOUNT_MIN || amount > AMOUNT_MAX)
+    return NextResponse.json({ error: `amount must be between ₦${AMOUNT_MIN.toLocaleString()} and ₦${AMOUNT_MAX.toLocaleString()}.` }, { status: 400 });
+  if (!Number.isInteger(horizonMonths) || horizonMonths < HORIZON_MIN_MONTHS || horizonMonths > HORIZON_MAX_MONTHS)
+    return NextResponse.json({ error: `horizonMonths must be a whole number from ${HORIZON_MIN_MONTHS} to ${HORIZON_MAX_MONTHS}.` }, { status: 400 });
+  if (!SECTORS.includes(sector))
+    return NextResponse.json({ error: `sector must be one of ${SECTORS.join(', ')}.` }, { status: 400 });
+
+  if (!INFERENCE_API_URL) {
+    return NextResponse.json(snapshot(sector,
+      'The live model service is not configured, so these portfolios are the saved model output for the latest prepared data snapshot.'));
   }
 
-  const allocs = (PROTOTYPE[modelYear] ?? PROTOTYPE[2025]).map(a => ({
-    symbol: a.ticker, name: NAMES[a.ticker] ?? a.ticker,
-    weight: a.weight, amount: Math.round(capital * a.weight),
-    rationale: 'Prototype allocation from the walk-forward evaluation.',
-  }));
-  return NextResponse.json({
-    signal_date: new Date().toISOString().split('T')[0],
-    model_year: modelYear, stale_days: 0, eligible_assets: 39,
-    gat_rankings: allocs.map((a,i) => ({ ticker: a.symbol, score: +(0.8-i*0.08).toFixed(3), rank: i+1 })),
-    ppo_allocations: allocs.map(a => ({ ticker: a.symbol, weight: a.weight })),
-    allocations: allocs, capital, source: 'prototype',
-    meta: { research_prototype: true, disclaimer: 'Research prototype only. Not financial advice.',
-            mode: INFERENCE_API_URL ? 'inference_unavailable' : 'no_server_configured' },
-  });
+  try {
+    const res = await fetch(`${INFERENCE_API_URL}/v1/recommend?sector=${encodeURIComponent(sector)}`, {
+      cache: 'no-store',
+      headers: INFERENCE_API_TOKEN ? { Authorization: `Bearer ${INFERENCE_API_TOKEN}` } : undefined,
+      signal: AbortSignal.timeout(55_000),
+    });
+    const payload = await res.json().catch(() => null);
+    if (res.ok && payload?.portfolios) {
+      return NextResponse.json({ ...(payload as Recommendation), source: 'live' } satisfies RecommendationResponse);
+    }
+    return NextResponse.json(snapshot(sector,
+      `The live model service returned an error (${res.status}), so these portfolios are the saved model output for the latest prepared data snapshot.`));
+  } catch {
+    return NextResponse.json(snapshot(sector,
+      'The live model service did not respond in time, so these portfolios are the saved model output for the latest prepared data snapshot.'));
+  }
 }
 
 export async function GET() {
-  if (!INFERENCE_API_URL)
-    return NextResponse.json({ status: 'prototype', inference: 'not configured' });
+  if (!INFERENCE_API_URL) return NextResponse.json({ status: 'snapshot', inference: 'not configured' });
   try {
-    const res = await fetch(`${INFERENCE_API_URL}/health`, { cache: 'no-store' });
-    return NextResponse.json({ status: res.ok ? 'ok' : 'unavailable', inference: await res.json() });
+    const res = await fetch(`${INFERENCE_API_URL}/health`, {
+      cache: 'no-store',
+      headers: INFERENCE_API_TOKEN ? { Authorization: `Bearer ${INFERENCE_API_TOKEN}` } : undefined,
+      signal: AbortSignal.timeout(55_000),
+    });
+    return NextResponse.json({ status: res.ok ? 'ok' : 'unavailable', inference: await res.json().catch(() => null) });
   } catch {
-    return NextResponse.json({ status: 'unreachable', inference: INFERENCE_API_URL }, { status: 502 });
+    return NextResponse.json({ status: 'unreachable' }, { status: 502 });
   }
 }

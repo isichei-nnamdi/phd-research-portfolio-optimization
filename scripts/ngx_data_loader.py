@@ -4,7 +4,7 @@
 ║  Reads manually downloaded Investing.com stock data files    ║
 ║  and builds cleaned analysis panels for the PhD pipeline     ║
 ║                                                              ║
-║  Author : Isichei, Nnamdi Augustus | PHD25DTS0002 | CCS-NSUK ║
+║  Author : Isichei, Nnamdi Augustus | PHD24DST0004 | CCS-NSUK ║
 ║                                                              ║
 ║  Folder structure expected:                                  ║
 ║    data/raw/ngx_stocks/                                      ║

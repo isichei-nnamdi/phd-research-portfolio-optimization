@@ -7,7 +7,7 @@ const METRICS = [
   { label: 'Pooled Sharpe Ratio',    value: '1.077',   sub: 'PPO agent, 68 months'     },
   { label: 'GAT Quintile Spread',    value: '2.22%',   sub: 'Mean monthly, 7 folds'    },
   { label: 'PPO Monthly Turnover',   value: '15.2%',   sub: 'vs MVO at 39.8%'          },
-  { label: 'Annual CAGR',            value: '29.1%',   sub: 'Net of 10 bps cost'       },
+  { label: 'Annual CAGR',            value: '25.6%',   sub: 'Net of 10 bps cost'       },
   { label: 'NGX Equities Studied',   value: '39',      sub: '2012 to 2025, 14 years'   },
   { label: 'Walk-Forward Folds',     value: '7',       sub: '68 usable test months'    },
 ];
@@ -164,7 +164,7 @@ export default function HomePage() {
             for Graph Neural Network Portfolio Optimisation&rdquo;
           </blockquote>
           <p className="text-ink-2 text-sm mb-2">
-            Austin Nnamdi Augustus Isichei &amp; Prof. H. K. Oduwole
+            Nnamdi Augustus Isichei &amp; Prof. H. K. Oduwole
           </p>
           <p className="text-accent text-sm font-medium">
             Proceedings of Machine Learning Research, Vol. 319 · IndabaX Nigeria 2026

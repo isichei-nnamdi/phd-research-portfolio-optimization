@@ -19,6 +19,11 @@ from stable_baselines3 import PPO
 from torch import nn
 from torch_geometric.nn import GATConv
 
+try:  # package import (uvicorn api.main:app) or script import
+    from api import profiles
+except ImportError:  # pragma: no cover
+    import profiles  # type: ignore
+
 
 ROOT = Path(__file__).resolve().parents[1]
 FEATURES = ["ret_1d", "mom_20d", "mom_60d", "vol_20d", "vol_60d", "volume_z_20d"]
@@ -133,7 +138,8 @@ def _recent_return_matrix(request: InferenceRequest, tickers: list[str]) -> np.n
     return matrix
 
 
-def run_inference(payload: InferenceRequest) -> dict[str, Any]:
+def model_outputs(payload: InferenceRequest) -> dict[str, Any]:
+    """Run GAT + PPO and return per-ticker arrays (scores, weights, eligibility, features)."""
     gat, gat_meta, ppo, ppo_meta = load_models(payload.model_year)
     tickers = list(gat_meta["tickers"])
     features = list(gat_meta["features"])
@@ -200,7 +206,17 @@ def run_inference(payload: InferenceRequest) -> dict[str, Any]:
     action = np.clip(np.asarray(action, dtype=float), -8, 8)
     action -= np.max(action[eligible])
     ppo_weights = _weights_from_scores(np.exp(action), eligible, float(ppo_meta["max_weight"]))
+    return {
+        "tickers": tickers, "gat_scores": gat_scores, "ppo_weights": ppo_weights, "eligible": eligible,
+        "rank_order": rank_order, "raw_features": raw_features, "features": features,
+        "gat_meta": gat_meta, "ppo_meta": ppo_meta,
+    }
 
+
+def run_inference(payload: InferenceRequest) -> dict[str, Any]:
+    out = model_outputs(payload)
+    tickers, gat_scores, ppo_weights, eligible = out["tickers"], out["gat_scores"], out["ppo_weights"], out["eligible"]
+    rank_order, gat_meta, ppo_meta = out["rank_order"], out["gat_meta"], out["ppo_meta"]
     gat_rankings = [
         {"ticker": tickers[index], "score": float(gat_scores[index]), "rank": rank + 1}
         for rank, index in enumerate(rank_order)
@@ -275,6 +291,19 @@ app.add_middleware(
 )
 
 
+API_TOKEN = os.getenv("API_TOKEN")
+
+
+@app.middleware("http")
+async def require_token(request, call_next):
+    """If API_TOKEN is set (e.g. as a Hugging Face Space secret), require it on every route except /health and /docs."""
+    if API_TOKEN and request.url.path.startswith("/v1/"):
+        if request.headers.get("authorization", "") != f"Bearer {API_TOKEN}":
+            from fastapi.responses import JSONResponse
+            return JSONResponse({"detail": "Unauthorized"}, status_code=401)
+    return await call_next(request)
+
+
 @app.get("/health")
 def health() -> dict[str, Any]:
     available = {
@@ -296,3 +325,39 @@ def inference_latest(model_year: int = 2025) -> dict[str, Any]:
     if model_year not in SUPPORTED_YEARS:
         raise HTTPException(status_code=422, detail=f"model_year must be one of {SUPPORTED_YEARS}")
     return run_inference(latest_snapshot_payload(model_year))
+
+def recommend(payload: InferenceRequest, sector: str = "All") -> dict[str, Any]:
+    """Three risk-profile portfolios (see api/profiles.py) from one GAT + PPO pass."""
+    if sector not in profiles.SECTOR_FOCUS:
+        raise HTTPException(status_code=422, detail=f"sector must be one of {list(profiles.SECTOR_FOCUS)}")
+    out = model_outputs(payload)
+    vol = out["raw_features"][:, out["features"].index("vol_60d")]
+    liquid = None
+    volume_path = INPUT_DIR / "volume_pit_daily.csv"
+    if volume_path.exists():
+        volume = pd.read_csv(volume_path, index_col=0, parse_dates=True)
+        history = volume.loc[volume.index < pd.Timestamp(payload.signal_date)].reindex(columns=out["tickers"]).tail(profiles.LIQUIDITY_LOOKBACK)
+        liquid = profiles.liquidity_mask(history.to_numpy(), out["eligible"])
+    try:
+        portfolios = profiles.build_all(out["tickers"], out["gat_scores"], out["ppo_weights"], vol, out["eligible"], sector, liquid)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    return {
+        "signal_date": payload.signal_date.isoformat(),
+        "model_year": payload.model_year,
+        "stale_days": (datetime.now(timezone.utc).date() - payload.signal_date).days,
+        "universe": len(out["tickers"]),
+        "eligible_assets": int(out["eligible"].sum()),
+        "sector": sector,
+        "rebalance": profiles.REBALANCE,
+        "max_weight": profiles.MAX_WEIGHT,
+        "portfolios": portfolios,
+        "meta": {"research_prototype": True, "disclaimer": "Research prototype only. Not financial advice."},
+    }
+
+
+@app.get("/v1/recommend")
+def recommend_latest(sector: str = "All", model_year: int = 2025) -> dict[str, Any]:
+    if model_year not in SUPPORTED_YEARS:
+        raise HTTPException(status_code=422, detail=f"model_year must be one of {SUPPORTED_YEARS}")
+    return recommend(latest_snapshot_payload(model_year), sector)

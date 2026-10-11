@@ -363,10 +363,10 @@ export default function ResearchPage() {
       </SectionHeader>
 
       <StatGrid items={[
-        { label: 'PPO Sharpe ratio', value: m.ppo.sharpe.toFixed(3), sub: '10 bps cost', note: 'vs MVO 1.024' },
-        { label: 'PPO CAGR',         value: `${m.ppo.cagr}%`, sub: 'Annualised, 68 months', note: 'vs EW 28.9%' },
-        { label: 'PPO turnover',     value: `${m.ppo.turnover}%`, sub: 'Monthly average', note: 'vs MVO 39.8%' },
-        { label: 'Max drawdown',     value: `${m.ppo.maxDD}%`, sub: 'Peak to trough', note: 'vs MVO −20.0%' },
+        { label: 'PPO Sharpe ratio', value: m.ppo.sharpe.toFixed(3), sub: '10 bps cost', note: `vs MVO ${m.mvo.sharpe.toFixed(3)}` },
+        { label: 'PPO CAGR',         value: `${m.ppo.cagr.toFixed(1)}%`, sub: 'Annualised, 68 months', note: `vs EW ${m.ew.cagr.toFixed(1)}%` },
+        { label: 'PPO turnover',     value: `${m.ppo.turnover}%`, sub: 'Monthly average', note: `vs MVO ${m.mvo.turnover}%` },
+        { label: 'Max drawdown',     value: `${m.ppo.maxDD.toFixed(1)}%`, sub: 'Peak to trough, pooled 68 months', note: `vs MVO ${m.mvo.maxDD.toFixed(1)}%` },
       ]} />
 
       <FigureHeader num="4.6" title="PPO allocation: cumulative wealth and annual performance (2019 to 2025)" />

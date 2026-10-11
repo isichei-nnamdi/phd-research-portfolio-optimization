@@ -29,18 +29,18 @@ export function Footer() {
             <ul className="space-y-1.5 text-sm text-ink-2">
               <li>NSUK - Centre for Cyberspace Studies</li>
               <li>Supervisor: Prof. H. K. Oduwole</li>
-              <li>PHD25DTS0002</li>
+              <li>PHD24DST0004</li>
               <li>
-                <a href="https://datafiedtech.com" target="_blank" rel="noopener noreferrer"
+                <a href="https://isicheinnamdi.com" target="_blank" rel="noopener noreferrer"
                    className={`${linkCls} inline-flex items-center gap-1`}>
-                  datafiedtech.com <ExternalLink className="w-3 h-3" />
+                  isicheinnamdi.com <ExternalLink className="w-3 h-3" />
                 </a>
               </li>
             </ul>
           </div>
         </div>
         <div className="border-t border-line mt-8 pt-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-ink-3">
-          <span>Austin Nnamdi Augustus Isichei - Nasarawa State University Keffi - 2025</span>
+          <span>Nnamdi Augustus Isichei - Nasarawa State University Keffi - 2025</span>
           <span>Published in <span className="font-medium text-accent">PMLR Vol. 319</span> - IndabaX Nigeria 2026</span>
         </div>
       </div>

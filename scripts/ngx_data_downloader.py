@@ -2,7 +2,7 @@
 ╔══════════════════════════════════════════════════════════════╗
 ║  NGX Data Downloader — PhD Research Data Pipeline            ║
 ║  Machine Learning-Enhanced Portfolio Optimisation for NGX    ║
-║  Author : Isichei, Nnamdi Augustus | PHD25DTS0002 | CCS-NSUK ║
+║  Author : Isichei, Nnamdi Augustus | PHD24DST0004 | CCS-NSUK ║
 ║                                                              ║
 ║  Collects:                                                   ║
 ║    ① NGX-30 OHLCV prices   (Investing.com)  2012-2025        ║
