@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { BarChart2, Brain, TrendingUp, Menu, X } from 'lucide-react';
+import { BarChart2, Brain, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import clsx from 'clsx';
 import { ThemeToggle } from './ThemeToggle';
@@ -23,14 +23,10 @@ export function Nav() {
 
           {/* Brand */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded-lg bg-ngx flex items-center justify-center
-                            group-hover:bg-ngx-light transition-colors">
-              <TrendingUp className="w-4 h-4 text-white" />
-            </div>
-            <img src="/favicon.svg" alt="NGX Advisor" className="w-8 h-8 rounded-lg" />
+            <img src="/favicon.svg" alt="NGX Advisor logo" className="w-8 h-8 rounded-lg" />
             <div className="leading-tight">
               <div className="text-sm font-bold text-white tracking-tight">NGX Robo-Advisor</div>
-              <div className="text-[10px] text-slate-400 hidden sm:block">PhD Research Demo · NSUK</div>
+              <div className="text-[10px] text-slate-400 hidden sm:block">PhD Research Demo - NSUK</div>
             </div>
           </Link>
 

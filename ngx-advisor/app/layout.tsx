@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Nav } from '@/components/Nav';
-import { Footer } from '@/components/Footer';
+import { Nav }           from '@/components/Nav';
+import { Footer }        from '@/components/Footer';
 import { ThemeProvider } from '@/components/ThemeProvider';
 
 export const metadata: Metadata = {
@@ -15,19 +15,22 @@ export const metadata: Metadata = {
     apple:    '/favicon.svg',
   },
   openGraph: {
-    title: 'NGX Robo-Advisor - ML Portfolio Optimisation',
+    title:       'NGX Robo-Advisor - ML Portfolio Optimisation',
     description: 'First ML portfolio framework validated on Nigerian Stock Exchange data.',
-    type: 'website',
+    type:        'website',
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className="scroll-smooth">
-      <body className="bg-navy text-white antialiased min-h-screen flex flex-col">
-        <Nav />
-        <main className="flex-1">{children}</main>
-        <Footer />
+      <body className="antialiased min-h-screen flex flex-col"
+            style={{ background: 'var(--bg-base)', color: 'var(--text-1)' }}>
+        <ThemeProvider>
+          <Nav />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
