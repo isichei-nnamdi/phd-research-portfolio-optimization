@@ -131,6 +131,16 @@ export default function ResearchPage() {
   const jbOutliers = R.returns.jarqueBera.filter(d => d.jb > 1000);
   const jbShown = R.returns.jarqueBera.filter(d => d.jb <= 1000);
   const zeroTop = liq.zeroVolume.slice(0, 20);
+  // Mean off-diagonal correlation, overall and within the Financial (banking) block.
+  const corrMean = (rows: number[], cols: number[]) => {
+    const vals = rows.flatMap(i => cols.filter(j => j > i).map(j => R.correlation.matrix[i][j]))
+      .filter((v): v is number => typeof v === 'number');
+    return vals.reduce((a, b) => a + b, 0) / vals.length;
+  };
+  const allIdx = R.correlation.symbols.map((_, i) => i);
+  const finSize = R.correlation.sectors.find(s => s.name === 'Financial')?.size ?? 0;
+  const bankCorr = corrMean(allIdx.slice(0, finSize), allIdx.slice(0, finSize));
+  const overallCorr = corrMean(allIdx, allIdx);
   const ppoWealth = withT(R.ppo.wealth);
   const sentWealth = withT(R.sentiment.wealth);
   const covTier = (c: number) => (c >= 42 ? 'Adequate (≥42%)' : c >= 20 ? 'Moderate (20 to 42%)' : 'Sparse (<20%)');
@@ -176,8 +186,8 @@ export default function ResearchPage() {
       <StatGrid items={[
         { label: 'Equities rejecting normality', value: '39 / 39', sub: 'Jarque-Bera p < 0.001 for all' },
         { label: 'ARCH volatility clustering',   value: 'Confirmed', sub: 'All stocks, all lags' },
-        { label: 'Illiquid stocks',              value: '27%', sub: 'Above 75th percentile volume CoV' },
-        { label: 'Intra-sector correlation',     value: '0.39', sub: 'vs 0.16 cross-sector' },
+        { label: 'Illiquid stocks',              value: `${liq.illiquidPct.toFixed(0)}%`, sub: `${liq.illiquidCount} of 39 above 75th percentile volume CoV` },
+        { label: 'Banking-cluster correlation',  value: bankCorr.toFixed(2), sub: `vs ${overallCorr.toFixed(2)} across all stock pairs` },
       ]} />
 
       <div className="card p-5 mt-4 flex gap-4 border-l-4 border-l-brand">
@@ -238,14 +248,14 @@ export default function ResearchPage() {
       </ChartCard>
 
       <FigureHeader num="4.2" title="Return correlation matrix with sector blocks">
-        Stocks correlate more strongly within their own sector, which is why the GAT builds its graph from rolling correlations.
+        Most NGX stock pairs barely move together; the banks are the one dense cluster. Attention lets the GAT focus on the few links that matter.
       </FigureHeader>
       <ChartCard eyebrow="Figure 4.2"
         title="Pearson correlation of daily returns, 39 NGX equities, 2012 to 2025"
         subtitle="Outlined squares mark sector blocks. Hover a cell to read the pair and its correlation."
         legend={<DivergingLegend />}
         table={{ columns: ['Stock', ...R.correlation.symbols], rows: R.correlation.matrix.map((row, i) => [R.correlation.symbols[i], ...row.map(v => (v == null ? '' : v.toFixed(2)))]) }}
-        caption="Intra-sector mean ρ = 0.39; cross-sector mean ρ = 0.16 (as published). The Financial block shows the strongest co-movement.">
+        caption={`Mean ρ within the Financial (banking) block = ${bankCorr.toFixed(2)}; mean across all ${(39 * 38) / 2} stock pairs = ${overallCorr.toFixed(2)}. Banks are the only dense cluster in an otherwise sparse matrix.`}>
         <Heatmap symbols={R.correlation.symbols} matrix={R.correlation.matrix} sectors={R.correlation.sectors}
           ariaLabel="Correlation heatmap of 39 NGX equities grouped by sector" />
       </ChartCard>

@@ -14,22 +14,22 @@ const METRICS = [
 
 const RQS = [
   { id: 'RQ1', label: 'GAT Pre-Selection', status: 'Prototype', icon: Brain,
-    desc: 'Graph Attention Network outperforms momentum (IC 0.054, spread 2.22%) and Random Forest baselines on the NGX.' },
+    desc: 'GAT delivers the widest top-minus-bottom quintile spread (2.22% a month vs 0.93% momentum, 0.82% Random Forest); Random Forest has the higher mean IC (0.061 vs 0.054).' },
   { id: 'RQ2', label: 'PPO Allocation',    status: 'Prototype', icon: TrendingUp,
-    desc: 'PPO agent achieves Sharpe 1.077 at 15.2% monthly turnover, demonstrating cost robustness over MVO at 39.8%.' },
+    desc: 'PPO reaches a Sharpe of 1.077 (MVO 1.024, equal weight 1.072) at 15.2% monthly turnover vs 39.8% for MVO, and loses less Sharpe as trading costs rise.' },
   { id: 'RQ3', label: 'Sentiment Signal',  status: 'Complete',  icon: BarChart2,
-    desc: 'VADER-scored news sentiment adds no significant incremental value (HAC t = −0.820, p = 0.41). First test for an African exchange.' },
+    desc: 'VADER-scored news sentiment adds no significant incremental value (HAC t = −0.820, p ≈ 0.41). First test for an African exchange.' },
   { id: 'RQ4', label: 'NGX Microstructure',status: 'Published', icon: BookOpen,
-    desc: 'All 39 equities reject normality; ARCH clustering confirmed; liquidity concentrated in Financial and ICT sectors. Published PMLR 2026.' },
+    desc: 'All 39 equities reject normality; volatility clustering (GARCH) in every stock; trading concentrated in Financial stocks (53% of value traded). Published PMLR 2026.' },
 ];
 
 const STAGES = [
   { step: '01', title: 'Data Pipeline',
-    items: ['39-stock PIT panel (2012 to 2025)', 'Survivorship-bias corrected', '6 macroeconomic variables', 'VADER-scored sentiment'] },
+    items: ['39-stock point-in-time panel (2012 to 2025)', 'Former NGX-30 members included', '6 lagged price and volume features', 'VADER-scored news sentiment (RQ3)'] },
   { step: '02', title: 'GAT Pre-Selection',
-    items: ['60-day rolling correlation graph', '2-layer attention network', 'Cross-sectional rank target', 'Top-quintile stock selection'] },
+    items: ['60-day rolling correlation graph', '2-layer graph attention network', 'Next-month return-rank target', 'Scored by IC and quintile spread'] },
   { step: '03', title: 'PPO Allocation',
-    items: ['Continuous weight action space', '20% per-asset cap', 'Turnover-penalised reward', 'Long-only portfolio weights'] },
+    items: ['Continuous weight action space', '20% per-asset cap', 'Reward net of 10 bps turnover cost', 'Long-only portfolio weights'] },
   { step: '04', title: 'Walk-Forward Validation',
     items: ['7 annual folds (2019 to 2025)', '68 out-of-sample months', 'No look-ahead bias', 'Cost sensitivity at 5 to 50 bps'] },
 ];
@@ -122,8 +122,9 @@ export default function HomePage() {
           <div className="text-center mb-12">
             <h2 className="section-title">Two-Stage Framework</h2>
             <p className="section-sub mx-auto">
-              GAT pre-selection filters the investable universe; PPO allocation
-              determines portfolio weights. Both stages are validated on strictly held-out data.
+              GAT ranks the stock universe (RQ1) and PPO learns portfolio weights (RQ2); each stage is
+              evaluated separately on strictly held-out annual folds. The robo-advisor combines them,
+              using GAT rankings to choose stocks and PPO weights to size them.
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
