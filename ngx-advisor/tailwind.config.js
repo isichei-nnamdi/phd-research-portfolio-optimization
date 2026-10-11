@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const token = name => `rgb(var(--${name}) / <alpha-value>)`;
+
 module.exports = {
   darkMode: 'class',
   content: [
@@ -8,11 +10,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        ngx:   { DEFAULT: '#007B3E', light: '#009B4E', dark: '#005a2d' },
-        gold:  { DEFAULT: '#C49A00', light: '#FFD700' },
-        navy:  '#0A1628',
+        canvas:   token('canvas'),
+        surface:  token('surface'),
+        subtle:   token('subtle'),
+        line:     token('line'),
+        ink:      { DEFAULT: token('ink'), 2: token('ink-2'), 3: token('ink-3') },
+        brand:    { DEFAULT: token('brand'), hover: token('brand-hover') },
+        accent:   token('accent'),
+        negative: token('negative'),
       },
-      fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+      fontFamily: { sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'sans-serif'] },
     },
   },
   plugins: [],

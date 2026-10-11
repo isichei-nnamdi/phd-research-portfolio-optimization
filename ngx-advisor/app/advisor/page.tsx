@@ -2,7 +2,8 @@
 import { useState } from 'react';
 import { Brain, TrendingUp, ArrowRight, Info, RefreshCw, AlertCircle } from 'lucide-react';
 import { NGX_STOCKS, type Allocation } from '@/lib/data';
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { BarList } from '@/components/charts/BarList';
+import { C } from '@/components/charts/core';
 import clsx from 'clsx';
 
 type Step = 'profile' | 'capital' | 'result';
@@ -18,8 +19,6 @@ type InferenceResult = {
   meta: { gat_validation_epoch?: number; ppo_training_timesteps?: number; research_prototype: boolean; disclaimer: string };
 };
 
-const SLICE_COLORS = ['#007B3E','#3b82f6','#f59e0b','#8b5cf6','#ef4444','#06b6d4'];
-
 const CAPITALS = ['100,000','500,000','1,000,000','5,000,000','10,000,000'];
 function formatNGN(val: number) {
   if (val >= 1_000_000) return `₦${(val / 1_000_000).toFixed(2)}M`;
@@ -27,18 +26,7 @@ function formatNGN(val: number) {
   return `₦${val}`;
 }
 
-function StockBadge({ symbol }: { symbol: string }) {
-  const stock = NGX_STOCKS.find(s => s.symbol === symbol);
-  return (
-    <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded-full
-                    bg-slate-card border border-slate-border text-xs text-white">
-      <span className="w-1.5 h-1.5 rounded-full bg-ngx-light" />
-      {symbol}
-    </div>
-  );
-}
-
-function AllocationBar({ alloc, amount, idx }: { alloc: Allocation; amount: number; idx: number }) {
+function AllocationBar({ alloc, amount }: { alloc: Allocation; amount: number }) {
   const stock = NGX_STOCKS.find(s => s.symbol === alloc.symbol);
   const pct   = Math.round(alloc.weight * 100);
   const naira = formatNGN(amount * alloc.weight);
@@ -47,29 +35,28 @@ function AllocationBar({ alloc, amount, idx }: { alloc: Allocation; amount: numb
     <div className="p-4 card">
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
-          <div className="w-3 h-3 rounded-full" style={{ background: SLICE_COLORS[idx % SLICE_COLORS.length] }} />
-          <span className="font-semibold text-white text-sm">{alloc.symbol}</span>
-          <span className="text-slate-400 text-xs hidden sm:block">{stock?.name}</span>
+          <span className="font-semibold text-ink text-sm">{alloc.symbol}</span>
+          <span className="text-ink-2 text-xs hidden sm:block">{stock?.name}</span>
         </div>
         <div className="text-right">
-          <div className="text-white font-bold text-sm">{pct}%</div>
-          <div className="text-slate-400 text-xs">{naira}</div>
+          <div className="text-ink font-bold text-sm">{pct}%</div>
+          <div className="text-ink-2 text-xs">{naira}</div>
         </div>
       </div>
       {/* Weight bar */}
-      <div className="h-1.5 bg-slate-border rounded-full overflow-hidden mb-2">
-        <div className="h-full rounded-full transition-all duration-500"
-          style={{ width: `${pct}%`, background: SLICE_COLORS[idx % SLICE_COLORS.length] }} />
+      <div className="h-1.5 bg-subtle rounded-full overflow-hidden mb-2">
+        <div className="h-full rounded-full bg-brand transition-all duration-500"
+          style={{ width: `${pct}%` }} />
       </div>
       {/* Rationale */}
-      <p className="text-slate-400 text-xs leading-relaxed">{alloc.rationale}</p>
+      <p className="text-ink-2 text-xs leading-relaxed">{alloc.rationale}</p>
       {/* Mini stats */}
       {stock && (
         <div className="flex gap-3 mt-2">
-          <div className="text-[10px] text-slate-500">Ann. Return <span className="text-white">{stock.annReturn.toFixed(1)}%</span></div>
-          <div className="text-[10px] text-slate-500">Vol <span className="text-white">{stock.annVol.toFixed(1)}%</span></div>
-          <div className="text-[10px] text-slate-500">Sharpe <span className="text-white">{stock.sharpe.toFixed(2)}</span></div>
-          <div className="text-[10px] text-slate-500">Beta <span className="text-white">{stock.beta.toFixed(2)}</span></div>
+          <div className="text-[10px] text-ink-3">Ann. Return <span className="text-ink">{stock.annReturn.toFixed(1)}%</span></div>
+          <div className="text-[10px] text-ink-3">Vol <span className="text-ink">{stock.annVol.toFixed(1)}%</span></div>
+          <div className="text-[10px] text-ink-3">Sharpe <span className="text-ink">{stock.sharpe.toFixed(2)}</span></div>
+          <div className="text-[10px] text-ink-3">Beta <span className="text-ink">{stock.beta.toFixed(2)}</span></div>
         </div>
       )}
     </div>
@@ -108,32 +95,31 @@ export default function AdvisorPage() {
     }
   }
 
-  const pieData = result?.allocations.map((a, i) => ({
-    name: a.symbol, value: Math.round(a.weight * 100),
-    fill: SLICE_COLORS[i % SLICE_COLORS.length],
-  })) ?? [];
+  const weightItems = [...(result?.allocations ?? [])]
+    .sort((a, b) => b.weight - a.weight)
+    .map(a => ({ label: a.symbol, value: +(a.weight * 100).toFixed(1), color: C.s1, group: 'Portfolio weight' }));
 
   return (
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
       {/* Header */}
       <div className="text-center mb-10">
-        <div className="inline-flex items-center gap-2 tag badge-ngx mb-4">
+        <div className="tag tag-brand mb-4">
           <Brain className="w-3.5 h-3.5" /> GAT + PPO Engine
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-3">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-ink mb-3">
           Portfolio Recommendation
         </h1>
-        <p className="text-slate-400 max-w-xl mx-auto">
+        <p className="text-ink-2 max-w-xl mx-auto">
           Run a saved annual GAT ranking and PPO allocation policy against the latest prepared repository snapshot.
         </p>
       </div>
 
       {/* Disclaimer */}
       <div className="card p-4 mb-8 flex gap-3">
-        <AlertCircle className="w-4 h-4 text-gold mt-0.5 flex-shrink-0" />
-        <p className="text-xs text-slate-400 leading-relaxed">
-          <span className="text-gold font-medium">Research prototype.</span>{' '}
+        <AlertCircle className="w-4 h-4 text-ink-3 mt-0.5 flex-shrink-0" />
+        <p className="text-xs text-ink-2 leading-relaxed">
+          <span className="text-ink font-medium">Research prototype.</span>{' '}
           Recommendations are generated from prototype walk-forward results (2019 to 2025).
           This tool is for academic demonstration only and does not constitute financial advice.
         </p>
@@ -142,15 +128,15 @@ export default function AdvisorPage() {
       {/* ── Step 1: Model fold ─────────────────────────────────────────── */}
       {step === 'profile' && (
         <div className="animate-in">
-          <h2 className="text-lg font-semibold text-white mb-2">Step 1: Select a saved annual model fold</h2>
-          <p className="text-sm text-slate-400 mb-5">Each fold was trained only on data available before its held-out year. Choose the policy vintage to apply to the current prepared snapshot.</p>
+          <h2 className="text-lg font-semibold text-ink mb-2">Step 1: Select a saved annual model fold</h2>
+          <p className="text-sm text-ink-2 mb-5">Each fold was trained only on data available before its held-out year. Choose the policy vintage to apply to the current prepared snapshot.</p>
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 mb-8">
             {Array.from({ length: 7 }, (_, index) => 2019 + index).map(year => (
               <button key={year} onClick={() => setModelYear(year)}
-                className={clsx('card p-4 text-left transition-colors', modelYear === year ? 'border-2 border-ngx bg-ngx/10' : 'border border-slate-border hover:border-ngx/50')}>
-                <div className="text-lg font-bold text-white">{year}</div>
-                <div className="text-[11px] text-slate-400">{year === 2025 ? 'Latest fold' : `Test fold ${year}`}</div>
-                {modelYear === year && <div className="mt-2 text-[10px] text-ngx-light">Selected</div>}
+                className={clsx('card p-4 text-left transition-colors', modelYear === year ? 'border-2 border-brand bg-brand/10' : 'border border-line hover:border-brand/50')}>
+                <div className="text-lg font-bold text-ink">{year}</div>
+                <div className="text-[11px] text-ink-2">{year === 2025 ? 'Latest fold' : `Test fold ${year}`}</div>
+                {modelYear === year && <div className="mt-2 text-[10px] text-accent">Selected</div>}
               </button>
             ))}
           </div>
@@ -165,14 +151,14 @@ export default function AdvisorPage() {
       {step === 'capital' && (
         <div className="animate-in">
           <button onClick={() => setStep('profile')}
-            className="text-sm text-slate-400 hover:text-white mb-6 flex items-center gap-1.5 transition-colors">
+            className="text-sm text-ink-2 hover:text-ink mb-6 flex items-center gap-1.5 transition-colors">
             ← Back to model fold
           </button>
-          <h2 className="text-lg font-semibold text-white mb-5">Step 2 - Investment Details</h2>
+          <h2 className="text-lg font-semibold text-ink mb-5">Step 2 - Investment Details</h2>
           <div className="grid sm:grid-cols-2 gap-6 mb-8">
             {/* Capital */}
             <div className="card p-5">
-              <label className="text-sm font-medium text-white mb-3 block">
+              <label className="text-sm font-medium text-ink mb-3 block">
                 Investment Amount (NGN)
               </label>
               <div className="grid grid-cols-2 gap-2">
@@ -181,8 +167,8 @@ export default function AdvisorPage() {
                     className={clsx(
                       'py-2.5 px-3 rounded-xl text-sm font-medium border transition-all',
                       capital === c
-                        ? 'bg-ngx/20 border-ngx text-ngx-light'
-                        : 'border-slate-border text-slate-400 hover:border-ngx/50 hover:text-white'
+                        ? 'bg-brand/10 border-brand text-accent'
+                        : 'border-line text-ink-2 hover:border-brand/50 hover:text-ink'
                     )}>
                     ₦{c}
                   </button>
@@ -191,9 +177,9 @@ export default function AdvisorPage() {
             </div>
 
             <div className="card p-5">
-              <div className="text-sm font-medium text-white mb-3">Inference details</div>
-              <div className="text-sm text-slate-400">GAT + PPO saved fold: <span className="text-white">{modelYear}</span></div>
-              <div className="text-xs text-slate-500 mt-2">The API uses the most recent point-in-time feature snapshot bundled with the repository.</div>
+              <div className="text-sm font-medium text-ink mb-3">Inference details</div>
+              <div className="text-sm text-ink-2">GAT + PPO saved fold: <span className="text-ink">{modelYear}</span></div>
+              <div className="text-xs text-ink-3 mt-2">The API uses the most recent point-in-time feature snapshot bundled with the repository.</div>
             </div>
           </div>
 
@@ -210,14 +196,14 @@ export default function AdvisorPage() {
           {loading && (
             <div className="mt-6 card p-4 space-y-2">
               {['Graph construction (60-day Pearson)', 'GAT attention forward pass', 'PPO weight allocation', 'Risk metrics computation'].map((s, i) => (
-                <div key={i} className="flex items-center gap-3 text-xs text-slate-400">
-                  <div className="w-3 h-3 rounded-full border-2 border-ngx border-t-transparent animate-spin" style={{ animationDelay: `${i * 0.2}s` }} />
+                <div key={i} className="flex items-center gap-3 text-xs text-ink-2">
+                  <div className="w-3 h-3 rounded-full border-2 border-brand border-t-transparent animate-spin" style={{ animationDelay: `${i * 0.2}s` }} />
                   {s}
                 </div>
               ))}
             </div>
           )}
-          {error && <div role="alert" className="mt-4 card border border-red-500/50 p-4 text-sm text-red-300">{error}</div>}
+          {error && <div role="alert" className="mt-4 card border border-negative/50 p-4 text-sm text-negative">{error}</div>}
         </div>
       )}
 
@@ -225,9 +211,9 @@ export default function AdvisorPage() {
       {step === 'result' && result && showResult && (
         <div className="animate-in space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-white">Your Portfolio Recommendation</h2>
+            <h2 className="text-lg font-semibold text-ink">Your Portfolio Recommendation</h2>
             <button onClick={() => { setStep('profile'); setResult(null); setShowResult(false); }}
-              className="btn-secondary text-sm py-2 px-4">
+              className="btn-ghost text-sm py-2 px-4">
               <RefreshCw className="w-4 h-4" /> Reset
             </button>
           </div>
@@ -235,74 +221,59 @@ export default function AdvisorPage() {
           {/* Summary cards */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { label: 'Signal date', value: result.signal_date, sub: 'Prepared data', color: 'text-ngx-light' },
-              { label: 'Eligible assets', value: `${result.eligible_assets}`, sub: 'Point-in-time active', color: 'text-blue-400' },
-              { label: 'Saved fold', value: `${result.model_year}`, sub: 'Annual policy', color: 'text-gold' },
-              { label: 'Snapshot age', value: `${result.stale_days} days`, sub: 'Check before use', color: 'text-red-400' },
+              { label: 'Signal date', value: result.signal_date, sub: 'Prepared data' },
+              { label: 'Eligible assets', value: `${result.eligible_assets}`, sub: 'Point-in-time active' },
+              { label: 'Saved fold', value: `${result.model_year}`, sub: 'Annual policy' },
+              { label: 'Snapshot age', value: `${result.stale_days} days`, sub: 'Check before use' },
             ].map((m, i) => (
               <div key={i} className="metric-card">
-                <div className={`metric-value text-lg ${m.color}`}>{m.value}</div>
-                <div className="text-white text-xs font-medium">{m.label}</div>
-                <div className="text-slate-500 text-[10px]">{m.sub}</div>
+                <div className="text-lg font-bold text-ink">{m.value}</div>
+                <div className="text-ink-2 text-xs font-medium">{m.label}</div>
+                <div className="text-ink-3 text-[10px]">{m.sub}</div>
               </div>
             ))}
           </div>
 
           {/* Inference provenance */}
-          <div className="card p-5 border-ngx/30 border">
+          <div className="card p-5 border-brand/30 border">
             <div className="flex items-center gap-2 mb-1">
-              <TrendingUp className="w-4 h-4 text-ngx-light" />
-              <span className="text-white font-semibold text-sm">Model inference</span>
+              <TrendingUp className="w-4 h-4 text-accent" />
+              <span className="text-ink font-semibold text-sm">Model inference</span>
             </div>
-            <div className="text-slate-300 text-sm mt-2">Weights are model outputs, not expected returns or guarantees. Input snapshot date: {result.signal_date}.</div>
-            <div className="text-slate-500 text-xs mt-2">GAT validation epoch: {result.meta.gat_validation_epoch ?? 'n/a'} · PPO training timesteps: {result.meta.ppo_training_timesteps ?? 'n/a'}</div>
+            <div className="text-ink-2 text-sm mt-2">Weights are model outputs, not expected returns or guarantees. Input snapshot date: {result.signal_date}.</div>
+            <div className="text-ink-3 text-xs mt-2">GAT validation epoch: {result.meta.gat_validation_epoch ?? 'n/a'} · PPO training timesteps: {result.meta.ppo_training_timesteps ?? 'n/a'}</div>
           </div>
 
           {/* Chart + allocations */}
           <div className="grid lg:grid-cols-5 gap-4">
-            {/* Pie chart */}
-            <div className="lg:col-span-2 card p-5 flex flex-col items-center">
-              <div className="text-sm font-medium text-white mb-3">Portfolio Weights</div>
-              <ResponsiveContainer width="100%" height={220}>
-                <PieChart>
-                  <Pie data={pieData} cx="50%" cy="50%" innerRadius={55} outerRadius={90}
-                       dataKey="value" paddingAngle={2} stroke="none">
-                    {pieData.map((entry, i) => (
-                      <Cell key={i} fill={entry.fill} />
-                    ))}
-                  </Pie>
-                  <Tooltip
-                    contentStyle={{ background: '#111e35', border: '1px solid #1e3054', borderRadius: 8 }}
-                    formatter={(v: number) => [`${v}%`, 'Weight']}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-              <div className="flex flex-wrap gap-2 justify-center mt-2">
-                {pieData.map((d, i) => (
-                  <div key={i} className="flex items-center gap-1.5 text-xs text-slate-400">
-                    <span className="w-2.5 h-2.5 rounded-full" style={{ background: d.fill }} />
-                    {d.name}
-                  </div>
-                ))}
-              </div>
+            {/* Weights */}
+            <div className="lg:col-span-2 card p-5">
+              <div className="text-sm font-semibold text-ink">Portfolio weights</div>
+              <div className="text-xs text-ink-2 mb-3">Share of capital per stock, largest first</div>
+              <BarList items={weightItems} rowHeight={26} tipValues xFormat={v => `${v}%`} valueFormat={v => `${v.toFixed(1)}%`}
+                tipRows={it => [
+                  { color: C.s1, kind: 'rect', label: 'Weight', value: `${it.value.toFixed(1)}%` },
+                  { label: 'Amount', value: formatNGN(amount * it.value / 100) },
+                ]}
+                ariaLabel="Recommended portfolio weights by stock" />
             </div>
 
             {/* Allocation list */}
             <div className="lg:col-span-3 space-y-2.5">
-              <div className="text-sm font-medium text-white">Stock Allocations</div>
+              <div className="text-sm font-medium text-ink">Stock Allocations</div>
               {result.allocations.map((a, i) => (
-                <AllocationBar key={i} alloc={a} amount={amount} idx={i} />
+                <AllocationBar key={i} alloc={a} amount={amount} />
               ))}
             </div>
           </div>
 
           <div className="card p-5">
-            <div className="text-sm font-medium text-white mb-3">GAT stock ranking</div>
+            <div className="text-sm font-medium text-ink mb-3">GAT stock ranking</div>
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-2">
               {result.gat_rankings.slice(0, 10).map(item => (
-                <div key={item.ticker} className="flex items-center justify-between rounded bg-slate-card px-3 py-2 text-sm">
-                  <span className="text-white">{item.rank}. {item.ticker}</span>
-                  <span className="text-slate-400">{item.score.toFixed(3)}</span>
+                <div key={item.ticker} className="flex items-center justify-between rounded bg-subtle px-3 py-2 text-sm">
+                  <span className="text-ink">{item.rank}. {item.ticker}</span>
+                  <span className="text-ink-2">{item.score.toFixed(3)}</span>
                 </div>
               ))}
             </div>
@@ -310,9 +281,9 @@ export default function AdvisorPage() {
 
           {/* Methodology note */}
           <div className="card p-4 flex gap-3">
-            <Info className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
-            <div className="text-xs text-slate-400 leading-relaxed">
-              <span className="text-blue-300 font-medium">How this works: </span>
+            <Info className="w-4 h-4 text-ink-3 mt-0.5 flex-shrink-0" />
+            <div className="text-xs text-ink-2 leading-relaxed">
+              <span className="text-ink font-medium">How this works: </span>
               The API loads the selected saved annual GAT/PPO fold and runs it on the most recent prepared repository snapshot. GAT ranks stocks using the training-time rolling correlation graph; PPO returns long-only weights with a 20% cap. This repository snapshot ends in 2025, so the signal is historical and must not be treated as live market advice.
             </div>
           </div>

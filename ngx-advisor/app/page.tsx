@@ -4,12 +4,12 @@ import { ArrowRight, TrendingUp, Brain, BarChart2, BookOpen, Award, CheckCircle2
 import { RESEARCH_METRICS } from '@/lib/data';
 
 const METRICS = [
-  { label: 'Pooled Sharpe Ratio',    value: '1.077',   sub: 'PPO agent, 68 months',       color: 'text-ngx-light' },
-  { label: 'GAT Quintile Spread',    value: '2.22%',   sub: 'Mean monthly, 7 folds',       color: 'text-gold' },
-  { label: 'PPO Monthly Turnover',   value: '15.2%',   sub: 'vs MVO at 39.8%',             color: 'text-blue-400' },
-  { label: 'Annual CAGR',            value: '29.1%',   sub: 'Net of 10 bps cost',          color: 'text-purple-400' },
-  { label: 'NGX Equities Studied',   value: '39',      sub: '2012 to 2025, 14 years',      color: 'text-ngx-light' },
-  { label: 'Walk-Forward Folds',     value: '7',       sub: '68 usable test months',        color: 'text-gold' },
+  { label: 'Pooled Sharpe Ratio',    value: '1.077',   sub: 'PPO agent, 68 months'     },
+  { label: 'GAT Quintile Spread',    value: '2.22%',   sub: 'Mean monthly, 7 folds'    },
+  { label: 'PPO Monthly Turnover',   value: '15.2%',   sub: 'vs MVO at 39.8%'          },
+  { label: 'Annual CAGR',            value: '29.1%',   sub: 'Net of 10 bps cost'       },
+  { label: 'NGX Equities Studied',   value: '39',      sub: '2012 to 2025, 14 years'   },
+  { label: 'Walk-Forward Folds',     value: '7',       sub: '68 usable test months'    },
 ];
 
 const RQS = [
@@ -23,29 +23,15 @@ const RQS = [
     desc: 'All 39 equities reject normality; ARCH clustering confirmed; liquidity concentrated in Financial and ICT sectors. Published PMLR 2026.' },
 ];
 
-const STATUS_STYLE: Record<string, string> = {
-  Published: 'bg-ngx/20 text-ngx-light border-ngx/40',
-  Complete:  'bg-blue-500/20 text-blue-300 border-blue-500/40',
-  Prototype: 'bg-gold/20 text-gold border-gold/40',
-};
-
 const STAGES = [
-  {
-    step: '01', title: 'Data Pipeline', color: 'border-ngx',
-    items: ['39-stock PIT panel (2012 to 2025)', 'Survivorship-bias corrected', '6 macroeconomic variables', 'VADER-scored sentiment'],
-  },
-  {
-    step: '02', title: 'GAT Pre-Selection', color: 'border-blue-500',
-    items: ['60-day rolling correlation graph', '2-layer attention network', 'Cross-sectional rank target', 'Top-quintile stock selection'],
-  },
-  {
-    step: '03', title: 'PPO Allocation', color: 'border-gold',
-    items: ['Continuous weight action space', '20% per-asset cap', 'Turnover-penalised reward', 'Long-only portfolio weights'],
-  },
-  {
-    step: '04', title: 'Walk-Forward Validation', color: 'border-purple-500',
-    items: ['7 annual folds (2019 to 2025)', '68 out-of-sample months', 'No look-ahead bias', 'Cost sensitivity at 5 to 50 bps'],
-  },
+  { step: '01', title: 'Data Pipeline',
+    items: ['39-stock PIT panel (2012 to 2025)', 'Survivorship-bias corrected', '6 macroeconomic variables', 'VADER-scored sentiment'] },
+  { step: '02', title: 'GAT Pre-Selection',
+    items: ['60-day rolling correlation graph', '2-layer attention network', 'Cross-sectional rank target', 'Top-quintile stock selection'] },
+  { step: '03', title: 'PPO Allocation',
+    items: ['Continuous weight action space', '20% per-asset cap', 'Turnover-penalised reward', 'Long-only portfolio weights'] },
+  { step: '04', title: 'Walk-Forward Validation',
+    items: ['7 annual folds (2019 to 2025)', '68 out-of-sample months', 'No look-ahead bias', 'Cost sensitivity at 5 to 50 bps'] },
 ];
 
 export default function HomePage() {
@@ -55,60 +41,46 @@ export default function HomePage() {
     <div>
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden">
-        {/* Background grid */}
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ backgroundImage: 'radial-gradient(circle at 25% 40%, #007B3E12 0%, transparent 60%), radial-gradient(circle at 75% 70%, #C49A0010 0%, transparent 50%)' }} />
-        <div className="absolute inset-0 pointer-events-none"
-          style={{ backgroundImage: 'linear-gradient(#1e305418 1px, transparent 1px), linear-gradient(90deg, #1e305418 1px, transparent 1px)', backgroundSize: '48px 48px' }} />
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
+        <div className="tag tag-brand mb-8 animate-in">
+          <Award className="w-3.5 h-3.5" />
+          Published · {m.publication.venue} · {m.publication.event}
+        </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.08] mb-6 animate-in text-ink"
+            style={{ animationDelay: '0.05s' }}>
+          NGX Robo-Advisor
+          <span className="block text-accent">ML-Enhanced Portfolio Optimisation</span>
+        </h1>
 
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-ngx/40
-                          bg-ngx/10 text-ngx-light text-xs font-medium mb-8 animate-in">
-            <Award className="w-3.5 h-3.5" />
-            Published · PMLR Vol. {m.publication.venue.split(' ').pop()} · {m.publication.event}
-          </div>
+        <p className="text-lg text-ink-2 max-w-2xl mx-auto mb-10 animate-in leading-relaxed"
+           style={{ animationDelay: '0.1s' }}>
+          A two-stage{' '}
+          <span className="text-ink font-medium">Graph Attention Network</span> and{' '}
+          <span className="text-ink font-medium">Proximal Policy Optimisation</span> framework
+          validated on {m.panel.stocks}&nbsp;NGX equities across {m.panel.years}&nbsp;years
+          ({m.panel.startYear} to {m.panel.endYear}).
+        </p>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.1] mb-6 animate-in"
-              style={{ animationDelay: '0.1s' }}>
-            <span className="text-white">NGX Robo-Advisor</span>
-            <br />
-            <span className="gradient-text">ML-Enhanced Portfolio</span>
-            <br />
-            <span className="gradient-text">Optimisation</span>
-          </h1>
-
-          <p className="text-lg text-slate-400 max-w-2xl mx-auto mb-10 animate-in leading-relaxed"
-             style={{ animationDelay: '0.2s' }}>
-            A two-stage{' '}
-            <span className="text-white font-medium">Graph Attention Network</span> and{' '}
-            <span className="text-white font-medium">Proximal Policy Optimisation</span> framework
-            validated on {m.panel.stocks}&nbsp;NGX equities across {m.panel.years}&nbsp;years
-            ({m.panel.startYear} to {m.panel.endYear}).
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-3 justify-center animate-in"
-               style={{ animationDelay: '0.3s' }}>
-            <Link href="/advisor" className="btn-primary text-base px-8 py-3.5 shadow-lg shadow-ngx/20">
-              Try the Robo-Advisor <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link href="/research" className="btn-secondary text-base px-8 py-3.5">
-              View Research Results <ChevronRight className="w-4 h-4" />
-            </Link>
-          </div>
+        <div className="flex flex-col sm:flex-row gap-3 justify-center items-center animate-in"
+             style={{ animationDelay: '0.15s' }}>
+          <Link href="/advisor" className="btn-primary text-base px-7 py-3.5 w-full sm:w-auto">
+            Try the Robo-Advisor <ArrowRight className="w-4 h-4" />
+          </Link>
+          <Link href="/research" className="btn-secondary text-base px-7 py-3.5 w-full sm:w-auto">
+            View Research Results <ChevronRight className="w-4 h-4" />
+          </Link>
         </div>
       </section>
 
       {/* ── Key Metrics ──────────────────────────────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-          {METRICS.map((m, i) => (
-            <div key={i} className="card-glow p-4 text-center">
-              <div className={`text-2xl font-extrabold ${m.color}`}>{m.value}</div>
-              <div className="text-white text-xs font-semibold mt-1">{m.label}</div>
-              <div className="text-slate-500 text-[10px] mt-0.5">{m.sub}</div>
+          {METRICS.map((x, i) => (
+            <div key={i} className="card p-4 text-center">
+              <div className="text-2xl font-bold text-ink">{x.value}</div>
+              <div className="text-ink-2 text-xs font-medium mt-1">{x.label}</div>
+              <div className="text-ink-3 text-[11px] mt-0.5">{x.sub}</div>
             </div>
           ))}
         </div>
@@ -118,51 +90,53 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
         <div className="text-center mb-10">
           <h2 className="section-title">Four Research Questions</h2>
-          <p className="section-sub mx-auto text-center">
+          <p className="section-sub mx-auto">
             Each question is independently addressed through a seven-fold
             walk-forward validation protocol with 68 out-of-sample monthly observations.
           </p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {RQS.map(rq => (
-            <div key={rq.id} className="card-glow p-5 flex flex-col gap-3">
+            <div key={rq.id} className="card card-hover p-5 flex flex-col gap-3">
               <div className="flex items-start justify-between">
-                <div className="w-9 h-9 rounded-xl bg-ngx/15 flex items-center justify-center">
-                  <rq.icon className="w-4.5 h-4.5 text-ngx-light" />
+                <div className="w-9 h-9 rounded-xl bg-brand/10 flex items-center justify-center">
+                  <rq.icon className="w-[18px] h-[18px] text-accent" />
                 </div>
-                <span className={`tag text-[10px] border ${STATUS_STYLE[rq.status]}`}>
+                <span className={`tag text-[10px] ${rq.status === 'Published' ? 'tag-brand' : 'tag-neutral'}`}>
                   {rq.status}
                 </span>
               </div>
               <div>
-                <div className="text-[10px] font-mono text-slate-500 mb-1">{rq.id}</div>
-                <h3 className="font-semibold text-white text-sm">{rq.label}</h3>
+                <div className="eyebrow mb-1">{rq.id}</div>
+                <h3 className="font-semibold text-ink text-sm">{rq.label}</h3>
               </div>
-              <p className="text-slate-400 text-xs leading-relaxed">{rq.desc}</p>
+              <p className="text-ink-2 text-xs leading-relaxed">{rq.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* ── Framework Architecture ───────────────────────────────────────── */}
-      <section className="bg-slate-card border-y border-slate-border py-20">
+      <section className="bg-surface border-y border-line py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="section-title">Two-Stage Framework</h2>
-            <p className="section-sub mx-auto text-center">
+            <p className="section-sub mx-auto">
               GAT pre-selection filters the investable universe; PPO allocation
               determines portfolio weights. Both stages are validated on strictly held-out data.
             </p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {STAGES.map((s, i) => (
-              <div key={i} className={`card p-5 border-t-2 ${s.color}`}>
-                <div className="text-[10px] font-mono text-slate-500 mb-1">Stage {s.step}</div>
-                <h3 className="font-semibold text-white mb-3">{s.title}</h3>
+              <div key={i} className="rounded-2xl border border-line bg-canvas p-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand text-xs font-bold text-white">{s.step}</span>
+                  <h3 className="font-semibold text-ink">{s.title}</h3>
+                </div>
                 <ul className="space-y-1.5">
                   {s.items.map((item, j) => (
-                    <li key={j} className="flex items-start gap-2 text-xs text-slate-400">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-ngx-light mt-0.5 flex-shrink-0" />
+                    <li key={j} className="flex items-start gap-2 text-xs text-ink-2">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-accent mt-0.5 flex-shrink-0" />
                       {item}
                     </li>
                   ))}
@@ -171,7 +145,7 @@ export default function HomePage() {
             ))}
           </div>
           <div className="mt-10 flex justify-center">
-            <Link href="/advisor" className="btn-primary px-10 py-3.5 text-base shadow-lg shadow-ngx/20">
+            <Link href="/advisor" className="btn-primary px-8 py-3.5 text-base">
               Try the Advisor <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
@@ -180,24 +154,21 @@ export default function HomePage() {
 
       {/* ── Paper highlight ──────────────────────────────────────────────── */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="card p-8 md:p-10 border-ngx/30 border relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-48 h-48 rounded-full bg-ngx/5 blur-3xl -translate-y-1/2 translate-x-1/2" />
-          <div className="relative z-10">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="tag badge-ngx">Published</div>
-              <div className="tag badge-gold">PMLR 2026</div>
-            </div>
-            <blockquote className="text-xl md:text-2xl font-semibold text-white leading-snug mb-4 max-w-3xl">
-              "Empirical Characterisation of the Nigerian Stock Exchange: Implications
-              for Graph Neural Network Portfolio Optimisation"
-            </blockquote>
-            <p className="text-slate-400 text-sm mb-2">
-              Austin Nnamdi Augustus Isichei &amp; Prof. H. K. Oduwole
-            </p>
-            <p className="text-ngx-light text-sm font-medium">
-              Proceedings of Machine Learning Research, Vol. 319 · IndabaX Nigeria 2026
-            </p>
+        <div className="card p-8 md:p-10 border-l-4 border-l-brand">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="tag tag-brand">Published</span>
+            <span className="tag tag-neutral">PMLR 2026</span>
           </div>
+          <blockquote className="text-xl md:text-2xl font-semibold text-ink leading-snug mb-4 max-w-3xl">
+            &ldquo;Empirical Characterisation of the Nigerian Stock Exchange: Implications
+            for Graph Neural Network Portfolio Optimisation&rdquo;
+          </blockquote>
+          <p className="text-ink-2 text-sm mb-2">
+            Austin Nnamdi Augustus Isichei &amp; Prof. H. K. Oduwole
+          </p>
+          <p className="text-accent text-sm font-medium">
+            Proceedings of Machine Learning Research, Vol. 319 · IndabaX Nigeria 2026
+          </p>
         </div>
       </section>
 

@@ -15,11 +15,16 @@ export const metadata: Metadata = {
   },
 };
 
+// Applies the saved theme before first paint so light-mode users never see a dark flash.
+const themeScript = `try{if(localStorage.getItem('nf-theme')==='light')document.documentElement.classList.add('light')}catch(e){}`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body style={{ background: 'var(--bg)', color: 'var(--t1)' }}
-            className="antialiased min-h-screen flex flex-col">
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
+      <body className="antialiased min-h-screen flex flex-col">
         <ThemeProvider>
           <Nav />
           <main className="flex-1">{children}</main>
