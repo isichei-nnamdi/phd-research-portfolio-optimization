@@ -1,0 +1,199 @@
+\begin{thebibliography}{}
+
+\bibitem[Aawaar and Tewari, 2023]{aawaar2023african}
+Aawaar, G. and Tewari, D.~D. (2023).
+\newblock Volatility persistence in {African} equity markets: {GARCH} evidence.
+\newblock {\em African Finance Journal}, 25(1):45--63.
+
+\bibitem[Adeabah et~al., 2023]{adeabah2023african}
+Adeabah, D., Abakah, E. J.~A., and Tiwari, A.~K. (2023).
+\newblock Machine learning in african financial markets: A systematic review.
+\newblock {\em Journal of African Business}, 24(4):567--592.
+
+\bibitem[Adigwe et~al., 2015]{adigwe2015stockmarket}
+Adigwe, P.~K., Nwanna, I.~O., and Ananwude, A. (2015).
+\newblock Stock market and macroeconomic variables in {Nigeria}.
+\newblock {\em Journal of Policy and Development Studies}, 9(2):167--182.
+
+\bibitem[Bekaert et~al., 2007]{bekaert2007liquidity}
+Bekaert, G., Harvey, C.~R., and Lundblad, C. (2007).
+\newblock Liquidity and expected returns: Lessons from emerging markets.
+\newblock {\em Review of Financial Studies}, 20(6):1783--1831.
+
+\bibitem[Bekaert et~al., 2023]{bekaert2023globalized}
+Bekaert, G., Harvey, C.~R., and Lundblad, C.~T. (2023).
+\newblock Emerging equity markets in a globalizing world.
+\newblock {\em Annual Review of Financial Economics}, 15:207--238.
+
+\bibitem[Bollerslev, 1986]{bollerslev1986generalized}
+Bollerslev, T. (1986).
+\newblock Generalized autoregressive conditional heteroskedasticity.
+\newblock {\em Journal of Econometrics}, 31(3):307--327.
+
+\bibitem[Breiman, 2001]{breiman2001random}
+Breiman, L. (2001).
+\newblock Random forests.
+\newblock {\em Machine Learning}, 45(1):5--32.
+
+\bibitem[DeMiguel et~al., 2009]{demiguel2009optimal}
+DeMiguel, V., Garlappi, L., and Uppal, R. (2009).
+\newblock Optimal versus naive diversification: How inefficient is the 1/{N}
+  portfolio strategy?
+\newblock {\em The Review of Financial Studies}, 22(5):1915--1953.
+
+\bibitem[Diebold and Mariano, 1995]{diebold1995comparing}
+Diebold, F.~X. and Mariano, R.~S. (1995).
+\newblock Comparing predictive accuracy.
+\newblock {\em Journal of Business \& Economic Statistics}, 13(3):253--263.
+
+\bibitem[Emenike, 2021]{emenike2021westafrica}
+Emenike, K.~O. (2021).
+\newblock Stock market integration in {West Africa}: Evidence from selected
+  markets.
+\newblock {\em Journal of African Business}, 22(4):573--588.
+
+\bibitem[Espiga-Fern{\'a}ndez et~al., 2024]{espiga2024}
+Espiga-Fern{\'a}ndez, D. et~al. (2024).
+\newblock Deep reinforcement learning for portfolio optimization: A comparative
+  study.
+\newblock {\em Algorithms}, 17(12):570.
+
+\bibitem[Huang et~al., 2024]{huang2024}
+Huang, W., Hong, Y., and Song, Y. (2024).
+\newblock Enhancing portfolio optimization: A two-stage approach with deep
+  learning and portfolio optimization.
+\newblock {\em Mathematics}, 12(21):3376.
+
+\bibitem[Hutto and Gilbert, 2014]{hutto2014vader}
+Hutto, C.~J. and Gilbert, E. (2014).
+\newblock {VADER}: A parsimonious rule-based model for sentiment analysis of
+  social media text.
+\newblock In {\em Proceedings of the International AAAI Conference on Web and
+  Social Media}, volume~8, pages 216--225.
+
+\bibitem[Isichei and Oduwole, 2026]{isichei2026characterising}
+Isichei, N.~A. and Oduwole, H.~K. (2026).
+\newblock Characterising the {Nigerian Stock Exchange} for machine
+  learning-based portfolio research: An empirical analysis of return
+  distributions, volatility dynamics, liquidity, and correlation structure.
+\newblock In {\em Proceedings of IndabaX Nigeria 2026}, volume 319 of {\em
+  Proceedings of Machine Learning Research}.
+
+\bibitem[Jarque and Bera, 1987]{jarque1987test}
+Jarque, C.~M. and Bera, A.~K. (1987).
+\newblock A test for normality of observations and regression residuals.
+\newblock {\em International Statistical Review}, 55(2):163--172.
+
+\bibitem[Jegadeesh and Titman, 1993]{jegadeesh1993returns}
+Jegadeesh, N. and Titman, S. (1993).
+\newblock Returns to buying winners and selling losers: Implications for stock
+  market efficiency.
+\newblock {\em The Journal of Finance}, 48(1):65--91.
+
+\bibitem[John et~al., 2022]{john2022}
+John, E.~T. et~al. (2022).
+\newblock Investor sentiment and stock market returns in {Nigeria}.
+\newblock {\em Ilorin Journal of Finance}.
+
+\bibitem[Kipf and Welling, 2017]{kipf2023}
+Kipf, T.~N. and Welling, M. (2017).
+\newblock Semi-supervised classification with graph convolutional networks.
+\newblock In {\em International Conference on Learning Representations}.
+
+\bibitem[Kumbure et~al., 2022]{kumbure2022}
+Kumbure, M.~M., Lohrmann, C., Luukka, P., and Porras, J. (2022).
+\newblock Machine learning techniques and data for stock market forecasting: A
+  literature review.
+\newblock {\em Expert Systems with Applications}, 197:116659.
+
+\bibitem[Kumeka et~al., 2022]{kumeka2022stockafrica}
+Kumeka, T.~T., Uzoma-Nwosu, D.~C., and David-Wayas, M.~O. (2022).
+\newblock Exchange rates and stock prices in selected {West African} countries.
+\newblock {\em International Journal of Finance and Economics},
+  27(3):3241--3256.
+
+\bibitem[Ledoit and Wolf, 2008]{ledoit2008robust}
+Ledoit, O. and Wolf, M. (2008).
+\newblock Robust performance hypothesis testing with the {Sharpe} ratio.
+\newblock {\em Journal of Empirical Finance}, 15(5):850--859.
+
+\bibitem[Liang et~al., 2024]{liang2024portfolio}
+Liang, Z., Chen, H., Zhu, J., Jiang, K., and Li, Y. (2024).
+\newblock Deep reinforcement learning for portfolio management: A survey and
+  research agenda.
+\newblock {\em Expert Systems with Applications}, 245:123124.
+
+\bibitem[Lu et~al., 2025]{lu2025}
+Lu, X., Poon, J., and Khushi, M. (2025).
+\newblock Leveraging {BiLSTM-GAT} for enhanced stock market prediction: A
+  dual-graph approach to portfolio optimization.
+\newblock {\em Applied Intelligence}, 55:601.
+
+\bibitem[Markowitz, 1952]{markowitz2024}
+Markowitz, H. (1952).
+\newblock Portfolio selection.
+\newblock {\em The Journal of Finance}, 7(1):77--91.
+
+\bibitem[Naeem et~al., 2024]{naeem2024ml}
+Naeem, M.~A., Farid, S., and Balli, F. (2024).
+\newblock Machine learning for portfolio management in emerging markets:
+  Opportunities and challenges.
+\newblock {\em Emerging Markets Finance and Trade}, 60(1):1--18.
+
+\bibitem[Newey and West, 1987]{newey1987simple}
+Newey, W.~K. and West, K.~D. (1987).
+\newblock A simple, positive semi-definite, heteroskedasticity and
+  autocorrelation consistent covariance matrix.
+\newblock {\em Econometrica}, 55(3):703--708.
+
+\bibitem[Ngene et~al., 2022]{ngene2022volume}
+Ngene, G.~M., Tah, K.~A., and Darrat, A.~F. (2022).
+\newblock Volume and volatility dynamics in frontier markets.
+\newblock {\em Journal of Financial Research}, 45(2):367--392.
+
+\bibitem[Ngo et~al., 2023]{ngo2023frontier}
+Ngo, M., Nguyen, H., and Tran, B. (2023).
+\newblock Reinforcement learning for portfolio management in frontier and
+  emerging markets.
+\newblock {\em Finance Research Letters}, 58:104462.
+
+\bibitem[Omorokunwa and Omorokunwa, 2023]{omorokunwa2023}
+Omorokunwa, O.~G. and Omorokunwa, A.~B. (2023).
+\newblock Stock market liquidity, volatility and returns in {Nigeria}.
+\newblock {\em World Journal of Advanced Research and Reviews}, 20(3).
+
+\bibitem[Orra et~al., 2025]{orra2025}
+Orra, A., Ranjan, R., Rege, M., and Jha, S. (2025).
+\newblock Risk-adjusted deep reinforcement learning for portfolio optimization:
+  A multi-reward approach.
+\newblock {\em International Journal of Computational Intelligence Systems},
+  18(1):42.
+
+\bibitem[Patel et~al., 2024]{patel2024}
+Patel, M. et~al. (2024).
+\newblock Graph neural networks for stock market forecasting: A systematic
+  review.
+\newblock {\em ACM Computing Surveys}.
+
+\bibitem[Schulman et~al., 2017]{schulman2019}
+Schulman, J., Wolski, F., Dhariwal, P., Radford, A., and Klimov, O. (2017).
+\newblock Proximal policy optimization algorithms.
+\newblock {\em arXiv preprint arXiv:1707.06347}.
+
+\bibitem[Sutton and Barto, 2018]{sutton2019}
+Sutton, R.~S. and Barto, A.~G. (2018).
+\newblock {\em Reinforcement Learning: An Introduction}.
+\newblock MIT Press, 2nd edition.
+
+\bibitem[Veli{\v{c}}kovi{\'c} et~al., 2018]{velickovic2019}
+Veli{\v{c}}kovi{\'c}, P. et~al. (2018).
+\newblock Graph attention networks.
+\newblock In {\em International Conference on Learning Representations}.
+
+\bibitem[Wu et~al., 2021]{wu2021comprehensive}
+Wu, Z., Pan, S., Chen, F., Long, G., Zhang, C., and Philip, S.~Y. (2021).
+\newblock A comprehensive survey on graph neural networks.
+\newblock {\em IEEE Transactions on Neural Networks and Learning Systems},
+  32(1):4--24.
+
+\end{thebibliography}

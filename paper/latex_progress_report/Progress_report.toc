@@ -1,0 +1,7 @@
+\beamer@sectionintoc {1}{Problem Statement}{3}{0}{1}
+\beamer@sectionintoc {2}{Progress Since the Proposal}{4}{0}{2}
+\beamer@sectionintoc {3}{Implemented Framework}{6}{0}{3}
+\beamer@sectionintoc {4}{Findings}{7}{0}{4}
+\beamer@sectionintoc {5}{Research Artefact \& Live Demo}{13}{0}{5}
+\beamer@sectionintoc {6}{Next Steps}{15}{0}{6}
+\beamer@sectionintoc {7}{References}{17}{0}{7}
